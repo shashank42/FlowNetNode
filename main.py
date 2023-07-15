@@ -5,7 +5,7 @@ from web3 import Web3
 import os
 from chain import main_loop
 from register import register_on_contract
-from flow_py_sdk import flow_client, AccountKey, signer
+from flow_py_sdk import flow_client, AccountKey, signer, Script
 from eth_account.hdaccount import (
     ETHEREUM_DEFAULT_PATH,
     generate_mnemonic,
