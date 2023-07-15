@@ -47,6 +47,9 @@ async def log_loop(poll_interval):
         requests = await get_requests()
         responses = await get_responses()
         
+        print("requests : ", requests)
+        print("responses : ", responses)
+        
         for requestId in requests.keys():
             if requestId not in responses.keys():
                 run_model(requests[requestId]["prompt"], request_id)
