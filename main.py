@@ -164,7 +164,8 @@ def wallet(info, create, save):
         click.echo("Address: " + account.address)
         click.echo("Mnemonic: " + mnemonic)
         key = HexBytes(account1.public_key)
-        click.echo("key: " + key)
+        click.echo("key: ")
+        click.echo(key)
         click.echo("Please save this mnemonic in a safe place. This will be used to recover your wallet in the future.")
         with open('mnemonic.txt', 'w') as f:
             f.write(mnemonic)
