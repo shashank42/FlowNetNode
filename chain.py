@@ -49,17 +49,19 @@ async def log_loop(poll_interval):
         responses = await get_responses()
         
         print(requests.value[0].value)
-        print(requests.value[0].value["responder"])
+        # print(requests.value[0].value.fields["responder"])
         
         # print("Name: {}".format(requests.value[0].fields[2].value))
         # print("Address: {}".format(requests.value[0].fields[2].bytes.hex()))
         # print("Balance: {}".format(requests.value[0].fields[3].value))
         
         # prompt = requests.value[0].value.fields["prompt"]
+        print(requests.value.keys())
+        print(responses.value.keys())
         
-        for requestId in requests.keys():
-            if requestId not in responses.keys():
-                run_model(requests[requestId]["prompt"], request_id)
+        for requestId in requests.value.keys():
+            if requestId not in responses.value.keys():
+                run_model(requests.value[requestId].value.fields["prompt"], request_id)
             
         await asyncio.sleep(poll_interval)
 
