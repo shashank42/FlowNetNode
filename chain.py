@@ -60,7 +60,7 @@ async def log_loop(poll_interval):
         # print("responses : ", responses)
         
         print(requests.value[0].value)
-        print(requests.value[0].value.fields[0].value)
+        print(requests.value[0].value.fields)
         
         print("Name: {}".format(requests.value[0].fields[2].value))
         print("Address: {}".format(requests.value[0].fields[2].bytes.hex()))
