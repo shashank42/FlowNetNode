@@ -52,7 +52,7 @@ def generate(length, option):
 @click.option("-i", "--info", is_flag=True, show_default=True, default=False, help="Get wallet associated to the node.")
 # @click.option("-c", "--create", is_flag=True, show_default=True, default=False, help="Create a new wallet if it doesn't exist.")
 @click.option("-s", "--save", prompt=True, prompt_required=False, help="Provide the address and key (private) to be stored for future operations. Comma separate them.")
-def wallet(info, create, save):
+def wallet(info, save):
     
     # only one of the the parameters can be true
     if (info + create + (save is not None)) > 1:
