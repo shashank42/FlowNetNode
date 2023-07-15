@@ -1,7 +1,7 @@
 // import FlowTransferNFT from 0x1b25a8536e63a7da
 // import NonFungibleToken from 0x631e88ae7f1d7c20
 // import MetadataViews from 0x631e88ae7f1d7c20
-import MainContract from "MainContract"
+import MainContractV2 from "MainContractV2"
 import ExampleToken from "ExampleToken"
 import FungibleToken from "FungibleToken"
 import ExampleNFT from "ExampleNFT"
@@ -53,7 +53,7 @@ transaction(id: UInt64){ //type: String, url: String
     }
     execute{
 
-        MainContract.rateInference(
+        MainContractV2.rateInference(
             id: 0, 
             inferenceId: 0, 
             rating: 1,

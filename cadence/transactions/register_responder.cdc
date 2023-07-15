@@ -1,4 +1,4 @@
-import MainContract from "MainContract"
+import MainContractV2 from "MainContractV2"
 import NonFungibleToken from "NonFungibleToken"
 import ExampleNFT from "ExampleNFT"
 
@@ -24,7 +24,7 @@ transaction(
             ?? panic("Account does not store an object at the specified path")
     }
     execute {
-        MainContract.registerResponder(
+        MainContractV2.registerResponder(
             cost: UInt64(cost), 
             url: url, 
             responder: self.address,

@@ -6,7 +6,7 @@ import ExampleNFT from "ExampleNFT"
 import InferenceNFT from "InferenceNFT"
 // import FlowToken from 0x7e60df042a9c0868
 
-pub contract MainContract { // NonFungibleToken.Receiver, NonFungibleToken.Provider
+pub contract MainContractV2 { // NonFungibleToken.Receiver, NonFungibleToken.Provider
 
     // pub let FlowTokenVault: Capability<&ExampleToken.Vault{FungibleToken.Receiver}>
 
@@ -16,17 +16,20 @@ pub contract MainContract { // NonFungibleToken.Receiver, NonFungibleToken.Provi
         pub let offer: UInt64
         pub let responder: Address
         pub let requestor: Address
+        pub let prompt: String
 
         init(
             start : UInt64,
             offer : UInt64,
             responder : Address,
-            requestor : Address
+            requestor : Address,
+            prompt: String
         ) {
             self.start = start
             self.offer = offer
             self.responder = responder
             self.requestor = requestor
+            self.prompt = prompt
         }
     }
 
@@ -154,7 +157,8 @@ pub contract MainContract { // NonFungibleToken.Receiver, NonFungibleToken.Provi
             start: getCurrentBlock().height,
             offer: UInt64(requestorVault.balance),
             responder: responder,
-            requestor: requestor
+            requestor: requestor,
+            prompt: prompt
         )
         receiverCapability.deposit(from: <- requestorVault)
         if (self.staked[requestor] == nil) {

@@ -86,8 +86,8 @@
 				"testnet": "0x0fb46f70bfa68d94"
 			}
 		},
-		"MainContract": {
-			"source": "./cadence/contracts/MainContract.cdc",
+		"MainContractV2": {
+			"source": "./cadence/contracts/MainContractV2.cdc",
 			"aliases": {
 				"emulator": "0xf8d6e0586b0a20c7",
 				"testnet": "0x0fb46f70bfa68d94"
@@ -126,10 +126,10 @@
 	},
 	"deployments": {
 		"emulator": {
-			"emulator-account": ["NonFungibleToken", "FungibleToken", "MetadataViews", "FungibleTokenMetadataViews",  "ViewResolver", "ExampleToken",  "ExampleNFT", "InferenceNFT", "MainContract"]
+			"emulator-account": ["NonFungibleToken", "FungibleToken", "MetadataViews", "FungibleTokenMetadataViews",  "ViewResolver", "ExampleToken",  "ExampleNFT", "InferenceNFT", "MainContractV2"]
 		},
 		"testnet": {
-			"testnet-account": [ "ViewResolver", "ExampleToken",  "ExampleNFT", "InferenceNFT", "MainContract"]
+			"testnet-account": [ "ViewResolver", "ExampleToken",  "ExampleNFT", "InferenceNFT", "MainContractV2"]
 		}
 	}
 }

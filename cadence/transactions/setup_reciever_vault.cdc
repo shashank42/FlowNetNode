@@ -5,14 +5,14 @@
 import FungibleToken from "FungibleToken"
 import ExampleToken from "ExampleToken"
 import MetadataViews from "MetadataViews"
-import MainContract from "MainContract"
+import MainContractV2 from "MainContractV2"
 
 transaction () {
     let vault: Capability<&ExampleToken.Vault{FungibleToken.Receiver}>
     prepare(signer: AuthAccount){
         self.vault = signer.getCapability<&ExampleToken.Vault{FungibleToken.Receiver}>(ExampleToken.ReceiverPublicPath)
     } execute{
-        MainContract.setUpRecieverVault(
+        MainContractV2.setUpRecieverVault(
             requestorVault: vault
         )
     }
