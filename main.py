@@ -141,6 +141,7 @@ def register(cost):
     pass
 
 
+
 @cli.command()
 @click.option("-p", "--prompt", prompt=True, prompt_required=False, help="Provide a prompt to test stable diffusion on.")
 def test(prompt):

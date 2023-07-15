@@ -1,11 +1,8 @@
-// import FlowTransferNFT from 0x1b25a8536e63a7da
-// import NonFungibleToken from 0x631e88ae7f1d7c20
-// import MetadataViews from 0x631e88ae7f1d7c20
 import MainContractV2 from "MainContractV2"
 import ExampleToken from "ExampleToken"
 import FungibleToken from "FungibleToken"
 
-transaction(recipient: Address){ //type: String, url: String
+transaction(recipient: Address, prompt: String, offer: UInt64){
 
     // The Vault resource that holds the tokens that are being transferred
     let sender: @ExampleToken.Vault
@@ -29,15 +26,14 @@ transaction(recipient: Address){ //type: String, url: String
         self.vault = signer.getCapability(ExampleToken.ReceiverPublicPath)
 
         self.address = signer.address
-
     }
-    execute{
 
+    execute{
         MainContractV2.requestInference(
-            prompt: "BLA", 
+            prompt: prompt, 
             requestor: self.address,
             responder: self.address,
-            offer: 1,
+            offer: offer,
             requestorVault: <- self.sender,
             receiverCapability: self.tokenReceiver
         )

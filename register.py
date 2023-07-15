@@ -43,9 +43,16 @@ async def register_responder(
     img: str,
     cost: int
 ):
+    
+    cmd = f'flow transactions send cadence/transactions/setup_account.cdc --network=testnet --signer=testnet-account'
+    print(cmd)
+    arch = subprocess.check_output(cmd, shell=True)
+    print(arch)
 
     cmd = f'flow transactions send cadence/transactions/register_responder.cdc {cost} "{url}" "Flow AI Node" "Decentralized AI inference nodes" "{img}" --network=testnet --signer=testnet-account'
     print(cmd)
     arch = subprocess.check_output(cmd, shell=True)
     print(arch)
+    
+    
         
