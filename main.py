@@ -191,7 +191,7 @@ async def try_script():
             """
     )
 
-    async with flow_client(host="localhost", port=3569) as client:
+    async with flow_client(host="access.devnet.nodes.onflow.org", port=9000) as client:
         await client.execute_script(
             script=script
             # , block_id
