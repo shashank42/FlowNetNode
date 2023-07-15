@@ -27,7 +27,7 @@ def register_on_contract(cost):
     
     metadata_json = {
         "name": "Flow AI Node",
-        "description": "Created by " + account.address,
+        "description": "Decentralized AI inference nodes",
         "image": image_ipfs["IpfsHash"],
         "attributes": [
             {
