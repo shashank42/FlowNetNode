@@ -98,8 +98,10 @@ def wallet(info, create, save):
             seed=mnemonic,
         )
         click.echo(account.address)
-        click.echo("Account public key FLOW : ")
-        click.echo(account1.public_key)
+        click.echo("Address Flow: ") 
+        click.echo(account1)
+        click.echo("Signer Flow: ")
+        click.echo(signer1)
         return
         
     # Check if mnemonic file already exists, if it exists don't allow to replace
@@ -126,8 +128,6 @@ def wallet(info, create, save):
         click.echo(account1)
         click.echo("Signer Flow: ")
         click.echo(signer1)
-        click.echo("Account public key FLOW : ")
-        click.echo(account1.public_key)
         
         click.echo("Please save this mnemonic in a safe place. This will be used to recover your wallet in the future.")
         with open('mnemonic.txt', 'w') as f:
@@ -149,23 +149,12 @@ def wallet(info, create, save):
             seed=mnemonic,
         )
         
-        seed = seed_from_mnemonic(mnemonic, "")
-        private_key = key_from_seed(seed, "m/44'/539'/0'/0/0")
-        key = HexBytes(private_key)
-        
         click.echo("Address: " + account.address)
         click.echo("Mnemonic: " + mnemonic)
         click.echo("Address Flow: ") 
         click.echo(account1)
         click.echo("Signer Flow: ")
         click.echo(signer1)
-        click.echo("Account public key FLOW : ")
-        click.echo(account1.public_key)
-        click.echo("Address: " + account.address)
-        click.echo("Mnemonic: " + mnemonic)
-        key = HexBytes(account1.public_key)
-        click.echo("key: ")
-        click.echo(key)
         click.echo("Please save this mnemonic in a safe place. This will be used to recover your wallet in the future.")
         with open('mnemonic.txt', 'w') as f:
             f.write(mnemonic)
@@ -187,9 +176,33 @@ def pinata(key, secret):
 # Add code to register/update the node on the Inference Manager contract
 @cli.command()
 @click.option('-c', '--cost', type=int, help='Register on Decent AI Contract as a node')
-def register(cost):
+async def register(cost):
     
-    register_on_contract(cost)
+    # register_on_contract(cost)
+    
+    
+    # First Step : Create a client to connect to the flow blockchain
+    # flow_client function creates a client using the host and port
+
+    # --------------------------------
+    # script without arguments Example
+    # --------------------------------
+    script = Script(
+        code="""
+                pub fun main(): Int {
+                    let a = 1
+                    let b = 1
+                    return a + b
+                }
+            """
+    )
+
+    async with flow_client(host="localhost", port=3569) as client:
+        await client.execute_script(
+            script=script
+            # , block_id
+            # , block_height
+        )
     
     pass
 

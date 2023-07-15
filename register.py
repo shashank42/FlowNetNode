@@ -2,6 +2,7 @@ import os
 from contract import fContract
 from chain import handle_event, web3, Web3
 from model import get_pinata_object
+from flow_py_sdk import flow_client, AccountKey, signer
 
 
 def register_on_contract(cost):
@@ -13,6 +14,14 @@ def register_on_contract(cost):
         lines = f.readlines()
         mnemonic = lines[0]
     account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/539'/0'/0/0")
+    
+    account1, signer1 = AccountKey.from_seed(
+            sign_algo=signer.SignAlgo.ECDSA_P256,
+            hash_algo=signer.HashAlgo.SHA3_256,
+            seed=mnemonic,
+        )
+    
+    
     
     pinata = get_pinata_object()
     image_ipfs = pinata.pin_file_to_ipfs("node.png")
