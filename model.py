@@ -65,13 +65,13 @@ def infer(prompt, request_id, strength=.75, num_inference_steps=70, guidance_sca
     if (pipe is None):
         # clearGPU()
         if not os.path.exists("pretrained/model"):
-            pipe = StableDiffusionPipeline.from_pretrained(model_path, torch_dtype=torch.float16, safety_checker=dummy).to(device)
+            pipe = StableDiffusionPipeline.from_pretrained(model_path, torch_dtype=torch.float16).to(device)                                    #safety_checker=dummy
             newpath = "pretrained"
             if not os.path.exists(newpath):
                 os.makedirs(newpath)
             pipe.save_pretrained("pretrained/model")
         else:
-            pipe = StableDiffusionPipeline.from_pretrained("pretrained/model", torch_dtype=torch.float16, safety_checker=dummy).to(device)
+            pipe = StableDiffusionPipeline.from_pretrained("pretrained/model", torch_dtype=torch.float16).to(device)                            #safety_checker=dummy
         
         
         

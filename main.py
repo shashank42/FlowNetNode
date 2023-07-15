@@ -79,10 +79,10 @@ def wallet(info, save):
         testnet_account = flow_json["accounts"]["testnet-account"]
 
         click.echo("Address on Flow : ") 
-        click.echo(testnet_account.address)
+        click.echo(testnet_account["address"])
         
         click.echo("Private key : ") 
-        click.echo(testnet_account.key)
+        click.echo(testnet_account["key"])
         
         return
         
@@ -92,6 +92,7 @@ def wallet(info, save):
             flow_json = json.load(f)
             if "accounts" in flow_json and "testnet-account" in flow_json["accounts"]:
                 click.echo("Secrets already exists. Please consider before replacing them.")
+                return
             
     # if (create):
     #     # Not implemented
