@@ -6,6 +6,7 @@ import os
 from chain import main_loop
 from register import register_on_contract
 from flow_py_sdk import flow_client, AccountKey, signer, Script
+from utils import random_account
 from eth_account.hdaccount import (
     ETHEREUM_DEFAULT_PATH,
     generate_mnemonic,
@@ -16,6 +17,8 @@ from hexbytes import (
     HexBytes,
 )
 import asyncio
+
+import json
 
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
@@ -59,8 +62,8 @@ def generate(length, option):
 
 @cli.command()
 @click.option("-i", "--info", is_flag=True, show_default=True, default=False, help="Get wallet associated to the node.")
-@click.option("-c", "--create", is_flag=True, show_default=True, default=False, help="Create a new wallet if it doesn't exist.")
-@click.option("-s", "--save", prompt=True, prompt_required=False, help="Save user's provided seed phrase and treat that as the wallet.")
+# @click.option("-c", "--create", is_flag=True, show_default=True, default=False, help="Create a new wallet if it doesn't exist.")
+@click.option("-s", "--save", prompt=True, prompt_required=False, help="Provide the address and key (private) to be stored for future operations. Comma separate them.")
 def wallet(info, create, save):
     
     # only one of the the parameters can be true
@@ -69,96 +72,58 @@ def wallet(info, create, save):
         return
     
     if (info):
-        web3 = Web3()
-        web3.eth.account.enable_unaudited_hdwallet_features()
-        mnemonic = ""
+        flow_json = ""
         
         # ensure that mnemonic file exists
-        if (not (os.path.exists('mnemonic.txt'))):
-            click.echo("Mnemonic file doesn't exist. Please create a new wallet using the -c flag or save a wallet using -s")
+        if not (os.path.exists('flow.json')):
+            click.echo("flow.json file doesn't exist. Please create a new wallet with flow-cli or save a wallet using -s")
             return
         
-        with open('mnemonic.txt') as f:
+        with open('flow.json') as f:
+            flow_json = json.load(f)
             lines = f.readlines()
-            if (len(lines) == 0):
-                click.echo("No wallet found. Please create a new wallet using the -c flag or save a wallet using -s")
+            if "accounts" not in flow_json.keys():
+                click.echo("No accounts found. Please create a new wallet with flow-cli or save a wallet using -s")
                 return
-            if (len(lines) > 1):
-                click.echo("More than one line found in mnemonic.txt. Please delete the extra lines and try again.")
+            if "testnet-account" not in flow_json["accounts"].keys():
+                click.echo("Testnet account not found in flow.json. Please create a new wallet with flow-cli or save a wallet using -s")
                 return
-            mnemonic = lines[0]
-            # mnemonic must have 12 words
-            if (len(mnemonic.split(" ")) != 12):
-                click.echo("Invalid mnemonic. Mnemonic must have 12 words.")
-                return
-            
-        account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/539'/0'/0/0")
-        account1, signer1 = AccountKey.from_seed(
-            sign_algo=signer.SignAlgo.ECDSA_P256,
-            hash_algo=signer.HashAlgo.SHA3_256,
-            seed=mnemonic,
-        )
-        click.echo(account.address)
-        click.echo("Address Flow: ") 
-        click.echo(account1)
-        click.echo("Signer Flow: ")
-        click.echo(signer1)
+        testnet_account = flow_json["accounts"]["testnet-account"]
+
+        click.echo("Address on Flow : ") 
+        click.echo(testnet_account.address)
+        
+        click.echo("Private key : ") 
+        click.echo(testnet_account.key)
+        
         return
         
     # Check if mnemonic file already exists, if it exists don't allow to replace
-    if (os.path.exists('mnemonic.txt')):
-        with open('mnemonic.txt', 'r') as f:
-            lines = f.readlines()
-            if (len(lines) > 0):
-                click.echo("Mnemonic file already exists. Please consider before replacing the mnemonic.")
-                return
-    
+    if (os.path.exists('flow.json')):
+        with open('flow.json', 'r') as f:
+            flow_json = json.load(f)
+            if "accounts" in flow_json and "testnet-account" in flow_json["accounts"]:
+                lick.echo("Secrets already exists. Please consider before replacing them.")
+            
     if (create):
-        web3 = Web3()
-        web3.eth.account.enable_unaudited_hdwallet_features()
-        account, mnemonic = web3.eth.account.create_with_mnemonic()
-        account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/539'/0'/0/0")
-        account1, signer1 = AccountKey.from_seed(
-            sign_algo=signer.SignAlgo.ECDSA_P256,
-            hash_algo=signer.HashAlgo.SHA3_256,
-            seed=mnemonic,
-        )
-        click.echo("Address: " + account.address)
-        click.echo("Mnemonic: " + mnemonic)
-        click.echo("Address Flow: ") 
-        click.echo(account1)
-        click.echo("Signer Flow: ")
-        click.echo(signer1)
-        
-        click.echo("Please save this mnemonic in a safe place. This will be used to recover your wallet in the future.")
-        with open('mnemonic.txt', 'w') as f:
-            f.write(mnemonic)
-        return
+        # Not implemented
+        pass
     
     if (save):
-        web3 = Web3()
-        web3.eth.account.enable_unaudited_hdwallet_features()
-        mnemonic = save
-        # mnemonic must have 12 words
-        if (len(mnemonic.split(" ")) != 12):
-            click.echo("Invalid mnemonic. Mnemonic must have 12 words.")
-            return
-        account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/539'/0'/0/0")
-        account1, signer1 = AccountKey.from_seed(
-            sign_algo=signer.SignAlgo.ECDSA_P256,
-            hash_algo=signer.HashAlgo.SHA3_256,
-            seed=mnemonic,
-        )
-        
-        click.echo("Address: " + account.address)
-        click.echo("Mnemonic: " + mnemonic)
-        click.echo("Address Flow: ") 
-        click.echo(account1)
-        click.echo("Signer Flow: ")
-        click.echo(signer1)
-        click.echo("Please save this mnemonic in a safe place. This will be used to recover your wallet in the future.")
-        with open('mnemonic.txt', 'w') as f:
-            f.write(mnemonic)
+        address = save.split(",")[0]
+        key = save.split(",")[1]
+
+        with open('flow.json', 'r') as f:
+            flow_json = json.load(f)
+            flow_json["accounts"]["testnet-account"] = {
+                "address": address,
+                "key": key
+            }
+            flow_json.dumps("flow.json")
+        click.echo("Flow address : ")
+        click.echo(address) 
+        click.echo("Key : ")
+        click.echo(key)
         return
 
 @cli.command()
@@ -173,6 +138,21 @@ def pinata(key, secret):
         f.writelines([l1, l2])
     return
 
+
+async def create_new_account():
+    
+    async with flow_client(
+            host="access.devnet.nodes.onflow.org", port=9000
+        ) as client:
+            _, _, _ = await random_account(client=client, ctx=ctx)
+            block = await client.get_latest_block(is_sealed=True)
+            collection_id = block.collection_guarantees[0].collection_id
+
+            collection = await client.get_collection_by_i_d(id=collection_id)
+            self.log.info(f"ID: {collection.id.hex()}")
+            self.log.info(
+                f"Transactions: [{', '.join(x.hex() for x in collection.transaction_ids)}]"
+            )
 
 async def try_script():
     # First Step : Create a client to connect to the flow blockchain
