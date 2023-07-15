@@ -119,11 +119,6 @@ async def register_responder(
         )
         
         
-        # cadence.Address.convert_to_bytes(address)
-        
-        # account_address = cadence.Address.from_hex(address)
-        # print(account_address)
-        
         latest_block = await client.get_latest_block()
         proposer = await client.get_account_at_latest_block(
             address=account_address.bytes
@@ -136,7 +131,7 @@ async def register_responder(
         
         transaction = (
             Tx(
-                code="""
+                code='''
                 import MainContract from 0x0fb46f70bfa68d94
                 import NonFungibleToken from 0x631e88ae7f1d7c20
                 import ExampleNFT from 0x0fb46f70bfa68d94
@@ -175,7 +170,7 @@ async def register_responder(
                         )
                     }
                 }
-                """,
+                ''',
                 reference_block_id=latest_block.id,
                 payer=account_address,
                 proposal_key=ProposalKey(
@@ -184,11 +179,7 @@ async def register_responder(
                     key_sequence_number=proposer.keys[0].sequence_number,
                 ),
             )
-            .add_arguments(cost)
-            .add_arguments(url)
-            .add_arguments(name)
-            .add_arguments(description)
-            .add_arguments(thumbnail)
+            .add_arguments(cost, url, name, description, thumbnail)
             .with_envelope_signature(
                 account_address,
                 0,
