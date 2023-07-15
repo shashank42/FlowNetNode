@@ -61,8 +61,8 @@ async def log_loop(poll_interval):
         
         
         print("Name: {}".format(requests.fields[2].value))
-        print("Address: {}".format(complex_script.fields[2].bytes.hex()))
-        print("Balance: {}".format(complex_script.fields[3].value))
+        print("Address: {}".format(requests.fields[2].bytes.hex()))
+        print("Balance: {}".format(requests.fields[3].value))
         
         
         
