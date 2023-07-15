@@ -105,8 +105,10 @@ def wallet(info, create, save):
         )
         click.echo("Address: " + account.address)
         click.echo("Mnemonic: " + mnemonic)
-        click.echo("Address Flow: " + account1)
-        click.echo("Signer Flow: " + signer1)
+        click.echo("Address Flow: ") 
+        click.echo(account1)
+        click.echo("Signer Flow: ")
+        click.echo(signer1)
         
         click.echo("Please save this mnemonic in a safe place. This will be used to recover your wallet in the future.")
         with open('mnemonic.txt', 'w') as f:
