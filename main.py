@@ -149,8 +149,8 @@ def wallet(info, create, save):
             seed=mnemonic,
         )
         
-        seed = seed_from_mnemonic(mnemonic, passphrase)
-        private_key = key_from_seed(seed, account_path)
+        seed = seed_from_mnemonic(mnemonic, "")
+        private_key = key_from_seed(seed, "m/44'/539'/0'/0/0")
         key = HexBytes(private_key)
         
         click.echo("Address: " + account.address)
