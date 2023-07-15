@@ -15,6 +15,7 @@ from eth_account.hdaccount import (
 from hexbytes import (
     HexBytes,
 )
+import asyncio
 
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
@@ -173,14 +174,7 @@ def pinata(key, secret):
     return
 
 
-# Add code to register/update the node on the Inference Manager contract
-@cli.command()
-@click.option('-c', '--cost', type=int, help='Register on Decent AI Contract as a node')
-async def register(cost):
-    
-    # register_on_contract(cost)
-    
-    
+async def try_script():
     # First Step : Create a client to connect to the flow blockchain
     # flow_client function creates a client using the host and port
 
@@ -203,6 +197,24 @@ async def register(cost):
             # , block_id
             # , block_height
         )
+
+# Add code to register/update the node on the Inference Manager contract
+@cli.command()
+@click.option('-c', '--cost', type=int, help='Register on Decent AI Contract as a node')
+def register(cost):
+    
+    register_on_contract(cost)
+    
+    loop = asyncio.get_event_loop()
+    try:
+        loop.run_until_complete(
+            asyncio.gather(
+                try_script()))
+                # log_loop(block_filter, 2),
+                # log_loop(tx_filter, 2)))
+    finally:
+        # close loop to free up system resources
+        loop.close() 
     
     pass
 
