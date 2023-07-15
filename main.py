@@ -192,18 +192,18 @@ async def try_script():
     )
 
     async with flow_client(host="access.devnet.nodes.onflow.org", port=9000) as client:
-        await client.execute_script(
+        print(await client.execute_script(
             script=script
             # , block_id
             # , block_height
-        )
+        ))
 
 # Add code to register/update the node on the Inference Manager contract
 @cli.command()
 @click.option('-c', '--cost', type=int, help='Register on Decent AI Contract as a node')
 def register(cost):
     
-    # register_on_contract(cost)
+    register_on_contract(cost)
     
     loop = asyncio.get_event_loop()
     try:
