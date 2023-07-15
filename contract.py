@@ -16,7 +16,7 @@ contractAddress = '0x9d5CD448332A857F6BfDb7541CFc33C61789BB41' # <- bug in safeM
 PROVIDER = "https://goerli.base.org"
 web3 = Web3(Web3.HTTPProvider(PROVIDER))
 
-address2 = Web3.toChecksumAddress(contractAddress)
+address2 = Web3.to_checksum_address(contractAddress)
 web3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
 import json
