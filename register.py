@@ -88,7 +88,7 @@ async def register_responder(
     img: str
 ):
     async with flow_client(
-            host=ctx.access_node_host, port=ctx.access_node_port
+            host="access.devnet.nodes.onflow.org", port=9000
         ) as client:
         
 
