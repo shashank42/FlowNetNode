@@ -183,10 +183,9 @@ async def try_script():
     # --------------------------------
     script = Script(
         code="""
-                pub fun main(): Int {
-                    let a = 1
-                    let b = 1
-                    return a + b
+                import MainContract from 0fb46f70bfa68d94
+                pub fun main(): {UInt64: MainContract.Request} {
+                    return MainContract.getRequests()
                 }
             """
     )
