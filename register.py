@@ -110,7 +110,7 @@ async def register_responder(
         address = "0x0fb46f70bfa68d94"
         pvt_key = "078874df2985c18378d2ffc34682f443a13170bc800f88ac88d861db60922c9e"
         
-        account_address = Address.from_hex(address)
+        account_address = cadence.Address.from_hex(address)
         
         new_signer = InMemorySigner(
             hash_algo=signer.HashAlgo.SHA3_256,
