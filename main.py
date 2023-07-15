@@ -80,7 +80,7 @@ def wallet(info, create, save):
                 click.echo("Invalid mnemonic. Mnemonic must have 12 words.")
                 return
             
-        account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/60'/0'/0/0")
+        account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/539'/0'/0/0")
         click.echo(account.address)
         return
         
@@ -96,6 +96,7 @@ def wallet(info, create, save):
         web3 = Web3()
         web3.eth.account.enable_unaudited_hdwallet_features()
         account, mnemonic = web3.eth.account.create_with_mnemonic()
+        account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/539'/0'/0/0")
         click.echo("Address: " + account.address)
         click.echo("Mnemonic: " + mnemonic)
         click.echo("Please save this mnemonic in a safe place. This will be used to recover your wallet in the future.")
@@ -111,7 +112,7 @@ def wallet(info, create, save):
         if (len(mnemonic.split(" ")) != 12):
             click.echo("Invalid mnemonic. Mnemonic must have 12 words.")
             return
-        account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/60'/0'/0/0")
+        account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/539'/0'/0/0")
         click.echo("Address: " + account.address)
         click.echo("Mnemonic: " + mnemonic)
         click.echo("Please save this mnemonic in a safe place. This will be used to recover your wallet in the future.")

@@ -9,3 +9,4 @@ GPUtil
 numba
 typing
 pinatapy-vourhey
+flow-py-sdk
