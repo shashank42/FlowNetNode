@@ -106,18 +106,16 @@ async def register_responder(
                 seed=mnemonic,
         )
         
-        # account_key.public_key
+        account_key.public_key
         
         address = "0x0fb46f70bfa68d94"
-        
-        print(cadence.Address.from_hex(address))
         # cadence.Address.convert_to_bytes(address)
         
-        # account_address
+        account_address = cadence.Address.from_hex(address)
         
         latest_block = await client.get_latest_block()
         proposer = await client.get_account_at_latest_block(
-            address=cadence.Address.convert_to_bytes(address)
+            address=account_address.bytes
         )
         cost = cadence.Int(1)
         url = cadence.String(url)
@@ -168,9 +166,9 @@ async def register_responder(
                 }
                 """,
                 reference_block_id=latest_block.id,
-                payer=address,
+                payer=account_address,
                 proposal_key=ProposalKey(
-                    key_address=address,
+                    key_address=account_address,
                     key_id=0,
                     key_sequence_number=proposer.keys[0].sequence_number,
                 ),
@@ -181,7 +179,7 @@ async def register_responder(
             .add_arguments(description)
             .add_arguments(thumbnail)
             .with_envelope_signature(
-                address,
+                account_address,
                 0,
                 new_signer,
             )
