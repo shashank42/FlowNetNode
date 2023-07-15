@@ -56,13 +56,18 @@ async def log_loop(poll_interval):
         # print("Balance: {}".format(requests.value[0].fields[3].value))
         
         # prompt = requests.value[0].value.fields["prompt"]
-        print(requests.value)
-        print(responses.value)
         
         for request_id in requests.value:
-            print(int(str(request_id.key)))
-            if request_id not in responses.value:
+            req_id = int(str(request_id.key))
+            found = False
+            for response_id in responses.value:
+                res_id = int(str(response_id.key))
+                if req_id == res_id:
+                    found = True
+                    break
+            if not found:
                 responder = str(requests.value[int(str(request_id.key))].value.fields["responder"])
+                print("Found pending request = {}".format(responder))
                 run_model(responder, request_id.key)
             
         await asyncio.sleep(poll_interval)
