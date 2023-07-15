@@ -12,13 +12,7 @@ import InferenceNFT from "InferenceNFT"
 transaction(
     id: UInt64,
     url: String,
-    ){ //type: String, url: String
-
-    // The Vault resource that holds the tokens that are being transferred
-    // let reciever: @ExampleToken.Vault
-    let vault: Capability //<&ExampleToken.Vault{FungibleToken.Receiver}>
-    /// Reference to the Fungible Token Receiver of the recipient
-    // let tokenProvider: &{FungibleToken.Provider}
+    ){ 
     let tokenReciever: &{FungibleToken.Receiver}
     let NFTRecievingCapability: &{NonFungibleToken.CollectionPublic}
     let minter: &InferenceNFT.NFTMinter
