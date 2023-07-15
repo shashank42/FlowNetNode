@@ -161,7 +161,6 @@ def wallet(info, create, save):
         click.echo(signer1)
         click.echo("Account public key FLOW : ")
         click.echo(account1.public_key)
-        click.echo(account1.public_key.decode("utf-8"))
         click.echo("Address: " + account.address)
         click.echo("Mnemonic: " + mnemonic)
         key = HexBytes(account1.public_key)
