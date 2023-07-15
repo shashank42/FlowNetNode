@@ -50,6 +50,7 @@ async def log_loop(poll_interval):
         print("requests : ", requests)
         print("requests : ", requests.__dict__)
         print("requests : ", requests.__dict__["value"][0].__dict__["value"].__dict__["fields"]["responder"].__dict__["bytes"])
+        print("requests : ", requests["value"][0]["value"]["fields"]["responder"]["bytes"])
         print("requests : ", requests.__dict__["value"][0].__dict__["value"].__dict__["fields"]["responder"].__dict__["bytes"].decode('UTF-8')) 
         print("responses : ", responses)
         
