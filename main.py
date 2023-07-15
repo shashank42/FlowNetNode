@@ -52,7 +52,8 @@ def generate(length, option):
 @click.option("-i", "--info", is_flag=True, show_default=True, default=False, help="Get wallet associated to the node.")
 # @click.option("-c", "--create", is_flag=True, show_default=True, default=False, help="Create a new wallet if it doesn't exist.")
 @click.option("-s", "--save", prompt=True, prompt_required=False, help="Provide the address and key (private) to be stored for future operations. Comma separate them.")
-def wallet(info, save):
+@click.option("-o", "--overwrite", is_flag=True, show_default=True, default=False, help="Overwrite existing secrets.")
+def wallet(info, save, overwrite):
     
     # only one of the the parameters can be true
     if (info + (save is not None)) > 1:
@@ -87,12 +88,13 @@ def wallet(info, save):
         return
         
     # Check if mnemonic file already exists, if it exists don't allow to replace
-    if (os.path.exists('flow.json')):
-        with open('flow.json', 'r') as f:
-            flow_json = json.load(f)
-            if "accounts" in flow_json and "testnet-account" in flow_json["accounts"]:
-                click.echo("Secrets already exists. Please consider before replacing them.")
-                return
+    if (overwrite is not None):
+        if (os.path.exists('flow.json')):
+            with open('flow.json', 'r') as f:
+                flow_json = json.load(f)
+                if "accounts" in flow_json and "testnet-account" in flow_json["accounts"]:
+                    click.echo("Secrets already exists. Please consider before replacing them.")
+                    return
             
     # if (create):
     #     # Not implemented
