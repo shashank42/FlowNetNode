@@ -5,6 +5,7 @@ from model import get_pinata_object
 from flow_py_sdk import flow_client, AccountKey, signer, ProposalKey, cadence, Tx
 import asyncio
 from flow_py_sdk.signer import InMemorySigner, HashAlgo, SignAlgo
+import subprocess
 
 def register_on_contract(cost):
     
@@ -110,84 +111,88 @@ async def register_responder(
         address = "0x0fb46f70bfa68d94"
         pvt_key = "078874df2985c18378d2ffc34682f443a13170bc800f88ac88d861db60922c9e"
         
-        account_address = cadence.Address.from_hex(address)
+        cmd = f'flow transactions send transactions/register_responder.cdc 1 "{url}" "Flow AI Node" "Decentralized AI inference nodes" "{img}" --network=testnet --signer=testnet-account'
+        arch = subprocess.check_output(cmd, shell=True)
+        print(arch)
         
-        new_signer = InMemorySigner(
-            hash_algo=signer.HashAlgo.SHA3_256,
-            sign_algo=signer.SignAlgo.ECDSA_P256,
-            private_key_hex=pvt_key,
-        )
+        # account_address = cadence.Address.from_hex(address)
+        
+        # new_signer = InMemorySigner(
+        #     hash_algo=signer.HashAlgo.SHA3_256,
+        #     sign_algo=signer.SignAlgo.ECDSA_P256,
+        #     private_key_hex=pvt_key,
+        # )
         
         
-        latest_block = await client.get_latest_block()
-        proposer = await client.get_account_at_latest_block(
-            address=account_address.bytes
-        )
-        cost = cadence.Int(1)
-        url = cadence.String(url)
-        name = cadence.String("Flow AI Node")
-        description = cadence.String("Decentralized AI inference nodes")
-        thumbnail = cadence.String(img)
+        # latest_block = await client.get_latest_block()
+        # proposer = await client.get_account_at_latest_block(
+        #     address=account_address.bytes
+        # )
+        # cost = cadence.Int(1)
+        # url = cadence.String(url)
+        # name = cadence.String("Flow AI Node")
+        # description = cadence.String("Decentralized AI inference nodes")
+        # thumbnail = cadence.String(img)
         
-        transaction = (
-            Tx(
-                code='''
-                import MainContract from 0x0fb46f70bfa68d94
-                import NonFungibleToken from 0x631e88ae7f1d7c20
-                import ExampleNFT from 0x0fb46f70bfa68d94
+        # transaction = (
+        #     Tx(
+        #         code='''
+        #         import MainContract from 0x0fb46f70bfa68d94
+        #         import NonFungibleToken from 0x631e88ae7f1d7c20
+        #         import ExampleNFT from 0x0fb46f70bfa68d94
 
-                transaction( 
-                    cost: Int, 
-                    url: String, 
-                    name: String,
-                    description: String,
-                    thumbnail: String,
-                ){ 
-                    let NFTRecievingCapability: &{NonFungibleToken.CollectionPublic}
-                    let minter: &ExampleNFT.NFTMinter
-                    let address: Address
+        #         transaction( 
+        #             cost: Int, 
+        #             url: String, 
+        #             name: String,
+        #             description: String,
+        #             thumbnail: String,
+        #         ){ 
+        #             let NFTRecievingCapability: &{NonFungibleToken.CollectionPublic}
+        #             let minter: &ExampleNFT.NFTMinter
+        #             let address: Address
 
-                    prepare(signer: AuthAccount){
-                        self.address = signer.address
-                        self.NFTRecievingCapability = getAccount(signer.address).getCapability(ExampleNFT.CollectionPublicPath) 
-                                        .borrow<&ExampleNFT.Collection{NonFungibleToken.CollectionPublic}>()
-                                        ?? panic("Failed to get User's collection.")
+        #             prepare(signer: AuthAccount){
+        #                 self.address = signer.address
+        #                 self.NFTRecievingCapability = getAccount(signer.address).getCapability(ExampleNFT.CollectionPublicPath) 
+        #                                 .borrow<&ExampleNFT.Collection{NonFungibleToken.CollectionPublic}>()
+        #                                 ?? panic("Failed to get User's collection.")
 
-                        // borrow a reference to the NFTMinter resource in storage
-                        self.minter = signer.borrow<&ExampleNFT.NFTMinter>(from: ExampleNFT.MinterStoragePath)
-                            ?? panic("Account does not store an object at the specified path")
-                    }
-                    execute {
-                        MainContract.registerResponder(
-                            cost: UInt64(cost), 
-                            url: url, 
-                            responder: self.address,
-                            recipient: self.NFTRecievingCapability,
-                            name: name,
-                            description: description,
-                            thumbnail: url,
-                            minter: self.minter
-                        )
-                    }
-                }
-                ''',
-                reference_block_id=latest_block.id,
-                payer=account_address,
-                proposal_key=ProposalKey(
-                    key_address=account_address,
-                    key_id=0,
-                    key_sequence_number=proposer.keys[0].sequence_number,
-                ),
-            )
-            .add_arguments(cost, url, name, description, thumbnail)
-            .with_envelope_signature(
-                account_address,
-                0,
-                new_signer,
-            )
-        )
+        #                 // borrow a reference to the NFTMinter resource in storage
+        #                 self.minter = signer.borrow<&ExampleNFT.NFTMinter>(from: ExampleNFT.MinterStoragePath)
+        #                     ?? panic("Account does not store an object at the specified path")
+        #             }
+        #             execute {
+        #                 MainContract.registerResponder(
+        #                     cost: UInt64(cost), 
+        #                     url: url, 
+        #                     responder: self.address,
+        #                     recipient: self.NFTRecievingCapability,
+        #                     name: name,
+        #                     description: description,
+        #                     thumbnail: url,
+        #                     minter: self.minter
+        #                 )
+        #             }
+        #         }
+        #         ''',
+        #         reference_block_id=latest_block.id,
+        #         payer=account_address,
+        #         proposal_key=ProposalKey(
+        #             key_address=account_address,
+        #             key_id=0,
+        #             key_sequence_number=proposer.keys[0].sequence_number,
+        #         ),
+        #     )
+        #     .add_arguments(cost, url, name, description, thumbnail)
+        #     .with_envelope_signature(
+        #         account_address,
+        #         0,
+        #         new_signer,
+        #     )
+        # )
 
-        await client.execute_transaction(transaction)
+        # await client.execute_transaction(transaction)
     
     
 
