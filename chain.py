@@ -2,6 +2,7 @@ import json
 import asyncio
 from model_runner import run_model
 from flow_py_sdk import flow_client, Script
+from flow_py_sdk import cadence
 
 
 async def get_requests():
@@ -50,9 +51,13 @@ async def log_loop(poll_interval):
         print("requests : ", requests)
         print("requests : ", requests.__dict__)
         print("requests : ", requests.__dict__["value"][0].__dict__["value"].__dict__["fields"]["responder"].__dict__["bytes"])
-        print("requests : ", requests["value"][0]["value"]["fields"]["responder"]["bytes"])
+        print("requests : ", requests["value"][0]["value"]["fields"]["responder"]["bytes"]["value"])
+        print(cadence.Address.decode(requests.__dict__["value"][0].__dict__["value"].__dict__["fields"]["responder"].__dict__["bytes"]))
+        
         print("requests : ", requests.__dict__["value"][0].__dict__["value"].__dict__["fields"]["responder"].__dict__["bytes"].decode('UTF-8')) 
         print("responses : ", responses)
+        
+        
         
         for requestId in requests.keys():
             if requestId not in responses.keys():
