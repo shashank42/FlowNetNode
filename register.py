@@ -109,6 +109,8 @@ async def register_responder(
         # account_key.public_key
         
         address = "0x0fb46f70bfa68d94"
+        
+        print(cadence.Address.from_hex(address))
         # cadence.Address.convert_to_bytes(address)
         
         # account_address
