@@ -28,15 +28,9 @@ transaction(
 
     prepare(signer: AuthAccount){
 
-        // self.sender <- signer.borrow<&ExampleToken.Vault>(from: ExampleToken.VaultStoragePath)!.withdraw(amount: UFix64(1)) as! @ExampleToken.Vault
-
-        // Get the account of the recipient and borrow a reference to their receiver
-        var account = getAccount(0xf8d6e0586b0a20c7)
-
         self.senderVault = signer.getCapability<&ExampleToken.Vault>(/private/exampleTokenVault)
 
-
-        self.tokenReciever = account
+        self.tokenReciever = signer
             .getCapability(ExampleToken.ReceiverPublicPath)
             .borrow<&{FungibleToken.Receiver}>()
             ?? panic("Unable to borrow receiver reference")
