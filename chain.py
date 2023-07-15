@@ -48,6 +48,7 @@ async def log_loop(poll_interval):
         responses = await get_responses()
         
         print("requests : ", requests)
+        print("requests : ", requests.__dict__)
         print("responses : ", responses)
         
         for requestId in requests.keys():
