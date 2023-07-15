@@ -6,6 +6,16 @@ import os
 from chain import main_loop
 from register import register_on_contract
 from flow_py_sdk import flow_client, AccountKey, signer
+from eth_account.hdaccount import (
+    ETHEREUM_DEFAULT_PATH,
+    generate_mnemonic,
+    key_from_seed,
+    seed_from_mnemonic,
+)
+from hexbytes import (
+    HexBytes,
+)
+
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -138,6 +148,11 @@ def wallet(info, create, save):
             hash_algo=signer.HashAlgo.SHA3_256,
             seed=mnemonic,
         )
+        
+        seed = seed_from_mnemonic(mnemonic, passphrase)
+        private_key = key_from_seed(seed, account_path)
+        key = HexBytes(private_key)
+        
         click.echo("Address: " + account.address)
         click.echo("Mnemonic: " + mnemonic)
         click.echo("Address Flow: ") 
@@ -149,6 +164,8 @@ def wallet(info, create, save):
         click.echo(account1.public_key.decode("utf-8"))
         click.echo("Address: " + account.address)
         click.echo("Mnemonic: " + mnemonic)
+        key = HexBytes(account1.public_key)
+        click.echo("key: " + key)
         click.echo("Please save this mnemonic in a safe place. This will be used to recover your wallet in the future.")
         with open('mnemonic.txt', 'w') as f:
             f.write(mnemonic)
