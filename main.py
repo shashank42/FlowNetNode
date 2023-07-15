@@ -107,7 +107,8 @@ def wallet(info, save):
                 "address": address,
                 "key": key
             }
-            flow_json.dumps("flow.json")
+            # flow_json.dump("flow.json")
+            json.dump(flow_json, open("flow.json","w"))
         click.echo("Flow address : ")
         click.echo(address) 
         click.echo("Key : ")
