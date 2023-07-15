@@ -51,7 +51,7 @@ async def log_loop(poll_interval):
         print("requests : ", requests)
         print("requests : ", requests.__dict__)
         print("requests : ", requests.__dict__["value"])
-        print("requests : ", requests.__dict__["value"][0].__dict__["value"].__dict__["fields"]["responder"].__dict__["bytes"])
+        print("requests : ", requests.__dict__["value"][0]["responder"])
         print(cadence.Address.decode(requests.__dict__["value"][0].__dict__["value"].__dict__["fields"]["responder"].__dict__["bytes"]))
         # print("requests : ", requests["value"][0]["value"]["fields"]["responder"]["bytes"]["value"])
         # print(cadence.Address.decode(requests.__dict__["value"][0].__dict__["value"].__dict__["fields"]["responder"].__dict__["bytes"]))
