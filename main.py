@@ -87,14 +87,14 @@ def wallet(info, save, overwrite):
         
         return
         
-    # Check if mnemonic file already exists, if it exists don't allow to replace
-    if (overwrite is not None):
-        if (os.path.exists('flow.json')):
-            with open('flow.json', 'r') as f:
-                flow_json = json.load(f)
-                if "accounts" in flow_json and "testnet-account" in flow_json["accounts"]:
-                    click.echo("Secrets already exists. Please consider before replacing them.")
-                    return
+    # # Check if mnemonic file already exists, if it exists don't allow to replace
+    # if (overwrite is not None):
+    #     if (os.path.exists('flow.json')):
+    #         with open('flow.json', 'r') as f:
+    #             flow_json = json.load(f)
+    #             if "accounts" in flow_json and "testnet-account" in flow_json["accounts"]:
+    #                 click.echo("Secrets already exists. Please consider before replacing them.")
+    #                 return
             
     # if (create):
     #     # Not implemented
