@@ -100,15 +100,22 @@ async def register_responder(
 
         account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/539'/0'/0/0")
                 
-        account_address, new_signer = AccountKey.from_seed(
+        account_key, new_signer = AccountKey.from_seed(
                 sign_algo=signer.SignAlgo.ECDSA_P256,
                 hash_algo=signer.HashAlgo.SHA3_256,
                 seed=mnemonic,
         )
         
+        # account_key.public_key
+        
+        address = "0fb46f70bfa68d94"
+        # cadence.Address.convert_to_bytes(address)
+        
+        # account_address
+        
         latest_block = await client.get_latest_block()
         proposer = await client.get_account_at_latest_block(
-            address=account_address.bytes
+            address=cadence.Address.convert_to_bytes(address)
         )
         cost = cadence.Int(1)
         url = cadence.String(url)
@@ -159,9 +166,9 @@ async def register_responder(
                 }
                 """,
                 reference_block_id=latest_block.id,
-                payer=account_address,
+                payer=address,
                 proposal_key=ProposalKey(
-                    key_address=account_address,
+                    key_address=address,
                     key_id=0,
                     key_sequence_number=proposer.keys[0].sequence_number,
                 ),
@@ -172,7 +179,7 @@ async def register_responder(
             .add_arguments(description)
             .add_arguments(thumbnail)
             .with_envelope_signature(
-                account_address,
+                address,
                 0,
                 new_signer,
             )
