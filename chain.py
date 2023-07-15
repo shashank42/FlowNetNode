@@ -56,8 +56,8 @@ async def log_loop(poll_interval):
         # print("Balance: {}".format(requests.value[0].fields[3].value))
         
         # prompt = requests.value[0].value.fields["prompt"]
-        print(requests.value.keys())
-        print(responses.value.keys())
+        print(requests.value)
+        print(responses.value)
         
         for requestId in requests.value.keys():
             if requestId not in responses.value.keys():
