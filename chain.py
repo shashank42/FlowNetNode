@@ -1,6 +1,7 @@
 import json
 import asyncio
 from model_runner import run_model
+from flow_py_sdk import flow_client, Script
 
 
 async def get_requests():
