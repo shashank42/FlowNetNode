@@ -59,11 +59,11 @@ async def log_loop(poll_interval):
         # print("requests : ", requests.__dict__["value"][0].__dict__["value"].__dict__["fields"]["responder"].__dict__["bytes"].decode('UTF-8')) 
         # print("responses : ", responses)
         
-        print(requests.value)
+        print(requests.value[0])
         
-        print("Name: {}".format(requests.__dict__["value"].fields[2].value))
-        print("Address: {}".format(requests.__dict__["value"].fields[2].bytes.hex()))
-        print("Balance: {}".format(requests.__dict__["value"].fields[3].value))
+        print("Name: {}".format(requests.value[0].fields[2].value))
+        print("Address: {}".format(requests.value[0].fields[2].bytes.hex()))
+        print("Balance: {}".format(requests.value[0].fields[3].value))
         
         
         for requestId in requests.keys():
