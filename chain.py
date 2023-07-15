@@ -48,7 +48,8 @@ async def log_loop(poll_interval):
         requests = await get_requests()
         responses = await get_responses()
         
-        print(requests.value[0].value)
+        print(requests)
+        print(responses)
         # print(requests.value[0].value.fields["responder"])
         
         # print("Name: {}".format(requests.value[0].fields[2].value))
