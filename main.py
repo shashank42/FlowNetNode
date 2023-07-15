@@ -55,7 +55,7 @@ def generate(length, option):
 def wallet(info, save):
     
     # only one of the the parameters can be true
-    if (info + create + (save is not None)) > 1:
+    if (info + (save is not None)) > 1:
         click.echo("Only one of the parameters can be true")
         return
     
@@ -93,9 +93,9 @@ def wallet(info, save):
             if "accounts" in flow_json and "testnet-account" in flow_json["accounts"]:
                 lick.echo("Secrets already exists. Please consider before replacing them.")
             
-    if (create):
-        # Not implemented
-        pass
+    # if (create):
+    #     # Not implemented
+    #     pass
     
     if (save):
         address = save.split(",")[0]
