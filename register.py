@@ -93,19 +93,19 @@ async def register_responder(
         ) as client:
         
 
-        web3.eth.account.enable_unaudited_hdwallet_features()
-        mnemonic = ""
-        with open('mnemonic.txt') as f:
-            lines = f.readlines()
-            mnemonic = lines[0]
+        # web3.eth.account.enable_unaudited_hdwallet_features()
+        # mnemonic = ""
+        # with open('mnemonic.txt') as f:
+        #     lines = f.readlines()
+        #     mnemonic = lines[0]
 
-        account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/539'/0'/0/0")
+        # account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/539'/0'/0/0")
                 
-        account_key, new_signer = AccountKey.from_seed(
-                sign_algo=signer.SignAlgo.ECDSA_P256,
-                hash_algo=signer.HashAlgo.SHA3_256,
-                seed=mnemonic,
-        )
+        # account_key, new_signer = AccountKey.from_seed(
+        #         sign_algo=signer.SignAlgo.ECDSA_P256,
+        #         hash_algo=signer.HashAlgo.SHA3_256,
+        #         seed=mnemonic,
+        # )
         
         address = "0x0fb46f70bfa68d94"
         pvt_key = "078874df2985c18378d2ffc34682f443a13170bc800f88ac88d861db60922c9e"
@@ -114,7 +114,7 @@ async def register_responder(
         
         new_signer = InMemorySigner(
             hash_algo=signer.HashAlgo.SHA3_256,
-            sign_algo=signer.HashAlgo.SHA3_256,
+            sign_algo=signer.SignAlgo.ECDSA_P256,
             private_key_hex=pvt_key,
         )
         
