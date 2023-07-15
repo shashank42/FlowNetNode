@@ -41,7 +41,7 @@ async def get_responses():
 # asynchronous defined function to loop
 # this loop sets up an event filter and is looking for new entires for the "PairCreated" event
 # this loop runs on a poll interval
-async def log_loop(event_filter, poll_interval):
+async def log_loop(poll_interval):
     while True:
         requests = await get_requests()
         responses = await get_responses()
@@ -62,7 +62,7 @@ def main_loop():
     try:
         loop.run_until_complete(
             asyncio.gather(
-                log_loop(event_filter, 2)))
+                log_loop(2)))
     finally:
         # close loop to free up system resources
         loop.close()
