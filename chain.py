@@ -48,24 +48,14 @@ async def log_loop(poll_interval):
         requests = await get_requests()
         responses = await get_responses()
         
-        print("requests : ", requests)
-        print("requests : ", requests.__dict__)
-        # print("requests : ", requests.__dict__["value"])
-        # print("requests : ", requests.__dict__["value"][0]["responder"])
-        # print(cadence.Address.decode(requests.__dict__["value"][0].__dict__["value"].__dict__["fields"]["responder"].__dict__["bytes"]))
-        # # print("requests : ", requests["value"][0]["value"]["fields"]["responder"]["bytes"]["value"])
-        # # print(cadence.Address.decode(requests.__dict__["value"][0].__dict__["value"].__dict__["fields"]["responder"].__dict__["bytes"]))
-        
-        # print("requests : ", requests.__dict__["value"][0].__dict__["value"].__dict__["fields"]["responder"].__dict__["bytes"].decode('UTF-8')) 
-        # print("responses : ", responses)
-        
         print(requests.value[0].value)
-        print(requests.value[0].value.fields["responder"])
+        print(requests.value[0].value["responder"])
         
-        print("Name: {}".format(requests.value[0].fields[2].value))
-        print("Address: {}".format(requests.value[0].fields[2].bytes.hex()))
-        print("Balance: {}".format(requests.value[0].fields[3].value))
+        # print("Name: {}".format(requests.value[0].fields[2].value))
+        # print("Address: {}".format(requests.value[0].fields[2].bytes.hex()))
+        # print("Balance: {}".format(requests.value[0].fields[3].value))
         
+        # prompt = requests.value[0].value.fields["prompt"]
         
         for requestId in requests.keys():
             if requestId not in responses.keys():
