@@ -62,8 +62,8 @@ async def log_loop(poll_interval):
         for request_id in requests.value:
             print(int(str(request_id.key)))
             if request_id not in responses.value:
-                print(str(requests.value[int(str(request_id.key))].value.fields["responder"]))
-                run_model(requests.value[int(str(request_id.key))].value.fields["responder"], request_id.key)
+                responder = str(requests.value[int(str(request_id.key))].value.fields["responder"])
+                run_model(responder, request_id.key)
             
         await asyncio.sleep(poll_interval)
 
