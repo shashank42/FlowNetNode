@@ -60,7 +60,7 @@ async def log_loop(poll_interval):
         print(responses.value)
         
         for requestId in requests.value:
-            print(requestId.key)
+            print(int(str(requestId.key)))
             if requestId not in responses.value:
                 run_model(requests.value[int(str(requestId.key))].value.fields["prompt"], request_id.key)
             
