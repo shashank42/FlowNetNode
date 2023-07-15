@@ -1,24 +1,12 @@
 import click
 import pyperclip
-# from app import application
-from web3 import Web3
 import os
 from chain import main_loop
 from register import register_on_contract
 from flow_py_sdk import flow_client, AccountKey, signer, Script
-from utils import random_account
-from eth_account.hdaccount import (
-    ETHEREUM_DEFAULT_PATH,
-    generate_mnemonic,
-    key_from_seed,
-    seed_from_mnemonic,
-)
-from hexbytes import (
-    HexBytes,
-)
 import asyncio
-
 import json
+from model import infer
 
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
@@ -139,44 +127,6 @@ def pinata(key, secret):
     return
 
 
-async def create_new_account():
-    
-    async with flow_client(
-            host="access.devnet.nodes.onflow.org", port=9000
-        ) as client:
-            _, _, _ = await random_account(client=client, ctx=ctx)
-            block = await client.get_latest_block(is_sealed=True)
-            collection_id = block.collection_guarantees[0].collection_id
-
-            collection = await client.get_collection_by_i_d(id=collection_id)
-            self.log.info(f"ID: {collection.id.hex()}")
-            self.log.info(
-                f"Transactions: [{', '.join(x.hex() for x in collection.transaction_ids)}]"
-            )
-
-async def try_script():
-    # First Step : Create a client to connect to the flow blockchain
-    # flow_client function creates a client using the host and port
-
-    # --------------------------------
-    # script without arguments Example
-    # --------------------------------
-    script = Script(
-        code="""
-                import MainContract from 0x0fb46f70bfa68d94
-                pub fun main(): {UInt64: MainContract.Request} {
-                    return MainContract.getRequests()
-                }
-            """
-    )
-
-    async with flow_client(host="access.devnet.nodes.onflow.org", port=9000) as client:
-        print(await client.execute_script(
-            script=script
-            # , block_id
-            # , block_height
-        ))
-
 # Add code to register/update the node on the Inference Manager contract
 @cli.command()
 @click.option('-c', '--cost', type=int, help='Register on Decent AI Contract as a node')
@@ -194,6 +144,16 @@ def register(cost):
     finally:
         # close loop to free up system resources
         loop.close() 
+    
+    pass
+
+
+@cli.command()
+@click.option("-p", "--prompt", prompt=True, prompt_required=False, help="Provide a prompt to test stable diffusion on.")
+def test(prompt):
+    
+    ipfs = infer(prompt, 1, strength=.75, num_inference_steps=70, guidance_scale=11, num_images_per_prompt=1)
+    print(ipfs)
     
     pass
 
