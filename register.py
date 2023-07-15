@@ -111,7 +111,7 @@ async def register_responder(
         address = "0x0fb46f70bfa68d94"
         pvt_key = "078874df2985c18378d2ffc34682f443a13170bc800f88ac88d861db60922c9e"
         
-        cmd = f'flow transactions send transactions/register_responder.cdc 1 "{url}" "Flow AI Node" "Decentralized AI inference nodes" "{img}" --network=testnet --signer=testnet-account'
+        cmd = f'flow transactions send transactions/register_responder.cdc {cost} "{url}" "Flow AI Node" "Decentralized AI inference nodes" "{img}" --network=testnet --signer=testnet-account'
         arch = subprocess.check_output(cmd, shell=True)
         print(arch)
         
