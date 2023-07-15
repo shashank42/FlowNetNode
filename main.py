@@ -82,7 +82,14 @@ def wallet(info, create, save):
                 return
             
         account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/539'/0'/0/0")
+        account1, signer1 = AccountKey.from_seed(
+            sign_algo=signer.SignAlgo.ECDSA_P256,
+            hash_algo=signer.HashAlgo.SHA3_256,
+            seed=mnemonic,
+        )
         click.echo(account.address)
+        click.echo("Account public key FLOW : ")
+        click.echo(account1.public_key)
         return
         
     # Check if mnemonic file already exists, if it exists don't allow to replace
@@ -109,6 +116,8 @@ def wallet(info, create, save):
         click.echo(account1)
         click.echo("Signer Flow: ")
         click.echo(signer1)
+        click.echo("Account public key FLOW : ")
+        click.echo(account1.public_key)
         
         click.echo("Please save this mnemonic in a safe place. This will be used to recover your wallet in the future.")
         with open('mnemonic.txt', 'w') as f:
@@ -124,6 +133,19 @@ def wallet(info, create, save):
             click.echo("Invalid mnemonic. Mnemonic must have 12 words.")
             return
         account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/539'/0'/0/0")
+        account1, signer1 = AccountKey.from_seed(
+            sign_algo=signer.SignAlgo.ECDSA_P256,
+            hash_algo=signer.HashAlgo.SHA3_256,
+            seed=mnemonic,
+        )
+        click.echo("Address: " + account.address)
+        click.echo("Mnemonic: " + mnemonic)
+        click.echo("Address Flow: ") 
+        click.echo(account1)
+        click.echo("Signer Flow: ")
+        click.echo(signer1)
+        click.echo("Account public key FLOW : ")
+        click.echo(account1.public_key)
         click.echo("Address: " + account.address)
         click.echo("Mnemonic: " + mnemonic)
         click.echo("Please save this mnemonic in a safe place. This will be used to recover your wallet in the future.")
