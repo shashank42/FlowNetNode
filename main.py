@@ -91,7 +91,7 @@ def wallet(info, save):
         with open('flow.json', 'r') as f:
             flow_json = json.load(f)
             if "accounts" in flow_json and "testnet-account" in flow_json["accounts"]:
-                lick.echo("Secrets already exists. Please consider before replacing them.")
+                click.echo("Secrets already exists. Please consider before replacing them.")
             
     # if (create):
     #     # Not implemented
