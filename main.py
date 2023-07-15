@@ -146,7 +146,7 @@ def wallet(info, create, save):
         click.echo(signer1)
         click.echo("Account public key FLOW : ")
         click.echo(account1.public_key)
-        click.echo(str(account1.public_key).decode("utf-8"))
+        click.echo(account1.public_key.decode("utf-8"))
         click.echo("Address: " + account.address)
         click.echo("Mnemonic: " + mnemonic)
         click.echo("Please save this mnemonic in a safe place. This will be used to recover your wallet in the future.")
