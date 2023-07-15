@@ -138,17 +138,6 @@ def register(cost):
     
     register_on_contract(cost)
     
-    loop = asyncio.get_event_loop()
-    try:
-        loop.run_until_complete(
-            asyncio.gather(
-                try_script()))
-                # log_loop(block_filter, 2),
-                # log_loop(tx_filter, 2)))
-    finally:
-        # close loop to free up system resources
-        loop.close() 
-    
     pass
 
 
