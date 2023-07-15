@@ -203,7 +203,7 @@ async def try_script():
 @click.option('-c', '--cost', type=int, help='Register on Decent AI Contract as a node')
 def register(cost):
     
-    register_on_contract(cost)
+    # register_on_contract(cost)
     
     loop = asyncio.get_event_loop()
     try:
