@@ -4,6 +4,7 @@ from chain import handle_event, web3, Web3
 from model import get_pinata_object
 from flow_py_sdk import flow_client, AccountKey, signer, ProposalKey, cadence, Tx
 import asyncio
+from flow_py_sdk.signer import InMemorySigner, HashAlgo, SignAlgo
 
 def register_on_contract(cost):
     
