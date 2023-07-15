@@ -12,7 +12,7 @@ def register_on_contract(cost):
     with open('mnemonic.txt') as f:
         lines = f.readlines()
         mnemonic = lines[0]
-    account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/60'/0'/0/0")
+    account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/539'/0'/0/0")
     
     pinata = get_pinata_object()
     image_ipfs = pinata.pin_file_to_ipfs("node.png")

@@ -90,7 +90,7 @@ def main_loop():
     with open('mnemonic.txt') as f:
         lines = f.readlines()
         mnemonic = lines[0]
-    account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/60'/0'/0/0")
+    account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/539'/0'/0/0")
     
     event_filter = fContract.events.RequestRecieved.createFilter(fromBlock='latest', argument_filters={'responder': account.address}) # , argument_filters={'responder': account.address}
     #block_filter = web3.eth.filter('latest')

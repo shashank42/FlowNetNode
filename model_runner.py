@@ -45,7 +45,7 @@ def run_model(prompt, request_id):
         mnemonic = lines[0]
         
     web3.eth.account.enable_unaudited_hdwallet_features()
-    account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/60'/0'/0/0")
+    account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/539'/0'/0/0")
 
     chain_id = web3.eth.chain_id
     tx = fContract.functions.recieveInference(request_id, fname).buildTransaction({

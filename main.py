@@ -5,6 +5,7 @@ from web3 import Web3
 import os
 from chain import main_loop
 from register import register_on_contract
+from flow_py_sdk import flow_client, AccountKey, signer
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -97,8 +98,16 @@ def wallet(info, create, save):
         web3.eth.account.enable_unaudited_hdwallet_features()
         account, mnemonic = web3.eth.account.create_with_mnemonic()
         account = web3.eth.account.from_mnemonic(mnemonic, account_path="m/44'/539'/0'/0/0")
+        account1, signer1 = AccountKey.from_seed(
+            sign_algo=signer.SignAlgo.ECDSA_P256,
+            hash_algo=signer.HashAlgo.SHA3_256,
+            seed=mnemonic,
+        )
         click.echo("Address: " + account.address)
         click.echo("Mnemonic: " + mnemonic)
+        click.echo("Address Flow: " + account1)
+        click.echo("Signer Flow: " + signer1)
+        
         click.echo("Please save this mnemonic in a safe place. This will be used to recover your wallet in the future.")
         with open('mnemonic.txt', 'w') as f:
             f.write(mnemonic)
