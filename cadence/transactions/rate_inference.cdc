@@ -1,14 +1,21 @@
-// import FlowTransferNFT from 0x1b25a8536e63a7da
-// import NonFungibleToken from 0x631e88ae7f1d7c20
-// import MetadataViews from 0x631e88ae7f1d7c20
-import MainContractV2 from "MainContractV2"
-import ExampleToken from "ExampleToken"
-import FungibleToken from "FungibleToken"
-import ExampleNFT from "ExampleNFT"
-import NonFungibleToken from "NonFungibleToken"
-import InferenceNFT from "InferenceNFT"
 
-transaction(id: UInt64){ //type: String, url: String
+// import MainContractV2 from "MainContractV2"
+// import ExampleToken from "ExampleToken"
+// import FungibleToken from "FungibleToken"
+// import ExampleNFT from "ExampleNFT"
+// import NonFungibleToken from "NonFungibleToken"
+// import InferenceNFT from "InferenceNFT"
+
+
+import MainContractV2 from 0x0fb46f70bfa68d94
+import ExampleToken from 0x0fb46f70bfa68d94
+import FungibleToken from 0x9a0766d93b6608b7
+import ExampleNFT from 0x0fb46f70bfa68d94
+import NonFungibleToken from 0x631e88ae7f1d7c20
+import InferenceNFT from 0x0fb46f70bfa68d94
+
+
+transaction(id: UInt64, rating: UInt64){ //type: String, url: String
 
     // The Vault resource that holds the tokens that are being transferred
     // let reciever: @ExampleToken.Vault
@@ -20,6 +27,8 @@ transaction(id: UInt64){ //type: String, url: String
     let minter: &ExampleToken.Minter
 
     let senderVault: Capability<&ExampleToken.Vault>
+
+    let address: Addressq
 
     prepare(signer: AuthAccount){
 
@@ -50,18 +59,17 @@ transaction(id: UInt64){ //type: String, url: String
         self.minter = signer.borrow<&ExampleToken.Minter>(from: ExampleToken.MinterStoragePath)
             ?? panic("Account does not store an object at the specified path")
 
+        self.address = signer.address
+
     }
     execute{
-
         MainContractV2.rateInference(
-            id: 0, 
-            inferenceId: 0, 
-            rating: 1,
+            id: id, 
+            rating: rating,
             minter: self.minter,
             receiverCapability: self.tokenReciever,
-            rater: 0xf8d6e0586b0a20c7
+            rater: self.address
         )
-
     }
 }
 
