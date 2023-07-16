@@ -1,13 +1,19 @@
 
-// import FlowTransferNFT from 0x1b25a8536e63a7da
-// import NonFungibleToken from 0x631e88ae7f1d7c20
-// import MetadataViews from 0x631e88ae7f1d7c20
-import MainContractV2 from "MainContractV2"
-import ExampleToken from "ExampleToken"
-import FungibleToken from "FungibleToken"
-import ExampleNFT from "ExampleNFT"
-import NonFungibleToken from "NonFungibleToken"
-import InferenceNFT from "InferenceNFT"
+
+// import MainContractV2 from "MainContractV2"
+// import ExampleToken from "ExampleToken"
+// import FungibleToken from "FungibleToken"
+// import ExampleNFT from "ExampleNFT"
+// import NonFungibleToken from "NonFungibleToken"
+// import InferenceNFT from "InferenceNFT"
+
+
+import MainContractV2 from 0x0fb46f70bfa68d94
+import ExampleToken from 0x0fb46f70bfa68d94
+import FungibleToken from 0x9a0766d93b6608b7
+import ExampleNFT from 0x0fb46f70bfa68d94
+import NonFungibleToken from 0x631e88ae7f1d7c20
+import InferenceNFT from 0x0fb46f70bfa68d94
 
 transaction(
     id: UInt64,
