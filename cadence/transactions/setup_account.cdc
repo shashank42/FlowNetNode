@@ -13,10 +13,12 @@ transaction () {
 
     prepare(signer: AuthAccount) {
 
+        
         // Return early if the account already stores a ExampleToken Vault
         if signer.borrow<&ExampleToken.Vault>(from: ExampleToken.VaultStoragePath) != nil {
             
         } else {
+            log("Create a new ExampleToken Vault and put it in storage")
             // Create a new ExampleToken Vault and put it in storage
             signer.save(
                 <-ExampleToken.createEmptyVault(),
@@ -48,6 +50,7 @@ transaction () {
         if signer.borrow<&ExampleNFT.Collection>(from: ExampleNFT.CollectionStoragePath) != nil {
             
         } else {
+            log("Create a new ExampleNFT EmptyCollection and put it in storage")
             // Create a new ExampleToken Vault and put it in storage
             signer.save(
                 <-ExampleNFT.createEmptyCollection(),
@@ -79,6 +82,7 @@ transaction () {
         if signer.borrow<&InferenceNFT.Collection>(from: InferenceNFT.CollectionStoragePath) != nil {
             
         } else {
+            log("Create a new InferenceNFT EmptyCollection and put it in storage")
             // Create a new ExampleToken Vault and put it in storage
             signer.save(
                 <-InferenceNFT.createEmptyCollection(),
@@ -105,9 +109,6 @@ transaction () {
             //     target: ExampleToken.VaultStoragePath
             // )
         }
-
-
-
         
     }
 }
