@@ -1,5 +1,9 @@
-import FungibleToken from "FungibleToken"
-import ExampleToken from "ExampleToken"
+// import FungibleToken from "FungibleToken"
+// import ExampleToken from "ExampleToken"
+
+import FungibleToken from 0x9a0766d93b6608b7
+import ExampleToken from 0x0fb46f70bfa68d94
+
 
 /// This transaction is what the minter Account uses to mint new tokens
 /// They provide the recipient address and amount to mint, and the tokens
