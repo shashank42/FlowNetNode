@@ -1,6 +1,11 @@
-import MainContractV2 from "MainContractV2"
-import NonFungibleToken from "NonFungibleToken"
-import ExampleNFT from "ExampleNFT"
+// import MainContractV2 from "MainContractV2"
+// import NonFungibleToken from "NonFungibleToken"
+// import ExampleNFT from "ExampleNFT"
+
+import MainContractV2 from 0x0fb46f70bfa68d94
+import NonFungibleToken from 0x631e88ae7f1d7c20
+import ExampleNFT from 0x0fb46f70bfa68d94
+
 
 transaction( 
     cost: Int, 
