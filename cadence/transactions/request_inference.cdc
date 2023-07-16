@@ -20,10 +20,10 @@ transaction(responder: Address, prompt: String, offer: UInt64){
 
     prepare(signer: AuthAccount){
 
-        self.sender <- signer.borrow<&ExampleToken.Vault>(from: ExampleToken.VaultStoragePath)!.withdraw(amount: UFix64(1)) as! @ExampleToken.Vault
+        self.sender <- signer.borrow<&ExampleToken.Vault>(from: ExampleToken.VaultStoragePath)!.withdraw(amount: UFix64(offer)) as! @ExampleToken.Vault
 
         // Get the account of the recipient and borrow a reference to their receiver
-        var account = getAccount(signer.address)
+        var account = getAccount(0x0fb46f70bfa68d94)
         self.tokenReceiver = account
             .getCapability(ExampleToken.ReceiverPublicPath)
             .borrow<&{FungibleToken.Receiver}>()
