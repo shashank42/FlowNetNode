@@ -1,8 +1,14 @@
-import MainContractV2 from "MainContractV2"
-import ExampleToken from "ExampleToken"
-import FungibleToken from "FungibleToken"
+// import MainContractV2 from "MainContractV2"
+// import ExampleToken from "ExampleToken"
+// import FungibleToken from "FungibleToken"
 
-transaction(recipient: Address, prompt: String, offer: UInt64){
+
+import MainContractV2 from 0x0fb46f70bfa68d94
+import ExampleToken from 0x0fb46f70bfa68d94
+import FungibleToken from 0x9a0766d93b6608b7
+
+
+transaction(responder: Address, prompt: String, offer: UInt64){
 
     // The Vault resource that holds the tokens that are being transferred
     let sender: @ExampleToken.Vault
@@ -32,7 +38,7 @@ transaction(recipient: Address, prompt: String, offer: UInt64){
         MainContractV2.requestInference(
             prompt: prompt, 
             requestor: self.address,
-            responder: self.address,
+            responder: responder,
             offer: offer,
             requestorVault: <- self.sender,
             receiverCapability: self.tokenReceiver
