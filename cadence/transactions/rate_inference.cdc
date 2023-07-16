@@ -28,7 +28,7 @@ transaction(id: UInt64, rating: UInt64){ //type: String, url: String
 
     let senderVault: Capability<&ExampleToken.Vault>
 
-    let address: Addressq
+    let address: Address
 
     prepare(signer: AuthAccount){
 
@@ -44,7 +44,7 @@ transaction(id: UInt64, rating: UInt64){ //type: String, url: String
         self.senderVault = signer.getCapability<&ExampleToken.Vault>(/private/exampleTokenVault)
 
 
-        self.tokenReciever = account
+        self.tokenReciever = signer
             .getCapability(ExampleToken.ReceiverPublicPath)
             .borrow<&{FungibleToken.Receiver}>()
             ?? panic("Unable to borrow receiver reference")
