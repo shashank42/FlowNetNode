@@ -363,6 +363,11 @@ pub contract MainContractV2 { // NonFungibleToken.Receiver, NonFungibleToken.Pro
     }
 
 
+    pub fun getAllRatings(): {UInt64: Rating} {
+        return self.ratings
+    }
+
+
 
 
 }
