@@ -332,6 +332,39 @@ pub contract ExampleNFT: NonFungibleToken, ViewResolver {
         }
     }
 
+    pub fun mintNFT(
+            recipient: &{NonFungibleToken.CollectionPublic},
+            name: String,
+            description: String,
+            thumbnail: String,
+            royalties: [MetadataViews.Royalty]
+        ): UInt64 {
+            let metadata: {String: AnyStruct} = {}
+            let currentBlock = getCurrentBlock()
+            metadata["mintedBlock"] = currentBlock.height
+            metadata["mintedTime"] = currentBlock.timestamp
+            metadata["minter"] = recipient.owner!.address
+
+            // this piece of metadata will be used to show embedding rarity into a trait
+            metadata["foo"] = "bar"
+
+            // create a new NFT
+            var newNFT <- create NFT(
+                id: ExampleNFT.totalSupply,
+                name: name,
+                description: description,
+                thumbnail: thumbnail,
+                royalties: royalties,
+                metadata: metadata,
+            )
+
+            // deposit it in the recipient's account using their reference
+            recipient.deposit(token: <-newNFT)
+
+            ExampleNFT.totalSupply = ExampleNFT.totalSupply + UInt64(1)
+            return ExampleNFT.totalSupply - UInt64(1)
+        }
+
     /// Function that resolves a metadata view for this contract.
     ///
     /// @param view: The Type of the desired view.

@@ -10,10 +10,10 @@
 // import NonFungibleToken from "NonFungibleToken"
 
 import FungibleToken from 0x9a0766d93b6608b7
-import ExampleToken from 0x0fb46f70bfa68d94
+import ExampleToken from 0x250ed09c50c9c6de
 import MetadataViews from 0x631e88ae7f1d7c20
-import ExampleNFT from 0x0fb46f70bfa68d94
-import InferenceNFT from 0x0fb46f70bfa68d94
+import ExampleNFT from 0x250ed09c50c9c6de
+import InferenceNFT from 0x250ed09c50c9c6de
 import NonFungibleToken from 0x631e88ae7f1d7c20
 
 

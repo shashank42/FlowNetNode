@@ -1,5 +1,5 @@
 
-flow accounts get 0x0fb46f70bfa68d94 --network=testnet
+flow accounts get 0x250ed09c50c9c6de --network=testnet
 flow accounts add-contract FungibleToken.cdc --network=testnet --signer=testnet-account
 flow accounts update-contract
 flow accounts update-contract ./FungibleToken.cdc --signer alice --network testnet
@@ -16,9 +16,9 @@ low accounts remove-contract MainContractV2 --network=testnet --signer=testnet-a
 
 
 flow transactions send cadence/transactions/mint_coin.cdc f8d6e0586b0a20c7 100.0 --network=emulator    
-flow transactions send cadence/transactions/mint_coin.cdc 0x0fb46f70bfa68d94 100.0 --network=testnet --signer=testnet-account
+flow transactions send cadence/transactions/mint_coin.cdc 0x250ed09c50c9c6de 100.0 --network=testnet --signer=testnet-account
 flow transactions send cadence/transactions/request_inference.cdc 0xf8d6e0586b0a20c7 --network=emulator
-flow transactions send cadence/transactions/request_inference.cdc 0x0fb46f70bfa68d94 --network=testnet --signer=testnet-account
+flow transactions send cadence/transactions/request_inference.cdc 0x250ed09c50c9c6de --network=testnet --signer=testnet-account
 flow transactions send cadence/transactions/register_node.cdc --network=emulator
 flow transactions send cadence/transactions/register_node.cdc --network=testnet --signer=testnet-account   
 flow transactions send cadence/transactions/submit_inference.cdc 0 --network=emulator

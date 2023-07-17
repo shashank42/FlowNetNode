@@ -8,7 +8,7 @@ from flow_py_sdk import cadence
 async def get_requests():
     script = Script(
         code="""
-                import MainContractV2 from 0x0fb46f70bfa68d94
+                import MainContractV2 from 0x250ed09c50c9c6de
                 pub fun main(): {UInt64: MainContractV2.Request} {
                     return MainContractV2.getRequests()
                 }
@@ -25,7 +25,7 @@ async def get_requests():
 async def get_responses():
     script = Script(
         code="""
-                import MainContractV2 from 0x0fb46f70bfa68d94
+                import MainContractV2 from 0x250ed09c50c9c6de
                 pub fun main(): {UInt64: MainContractV2.Response} {
                     return MainContractV2.getResponses()
                 }

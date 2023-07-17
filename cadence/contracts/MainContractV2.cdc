@@ -187,8 +187,7 @@ pub contract MainContractV2 { // NonFungibleToken.Receiver, NonFungibleToken.Pro
         responder: Address,
         tokenProvider: Capability<&ExampleToken.Vault>,
         responderRecievingCapability: &{FungibleToken.Receiver},
-        responderNFTRecievingCapability: &{NonFungibleToken.CollectionPublic},
-        minter: &InferenceNFT.NFTMinter
+        responderNFTRecievingCapability: &{NonFungibleToken.CollectionPublic}
         ) {
 
         if let responderData = self.responders[responder] {
@@ -200,7 +199,7 @@ pub contract MainContractV2 { // NonFungibleToken.Receiver, NonFungibleToken.Pro
 
                 self.responses[id] = self.Response(url: url, responder: responder)
                 responderRecievingCapability.deposit(from: <- tokenProvider.borrow()!.withdraw(amount: UFix64(1)))
-                minter.mintNFT(
+                ExampleNFT.mintNFT(
                     recipient: responderNFTRecievingCapability,
                     name: "FlowAI Inference NFT",
                     description: request.prompt,

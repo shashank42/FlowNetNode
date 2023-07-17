@@ -26,7 +26,7 @@
             "source": "./cadence/contracts/ExampleToken.cdc",
             "alias": {
                 "emulator": "0xf8d6e0586b0a20c7",
-				"testnet": "0x0fb46f70bfa68d94"
+				"testnet": "0x250ed09c50c9c6de"
             }
         },
         "NonFungibleToken": {
@@ -76,28 +76,28 @@
 			"source": "./cadence/contracts/ExampleNFT.cdc",
 			"aliases": {
 				"emulator": "0xf8d6e0586b0a20c7",
-				"testnet": "0x0fb46f70bfa68d94"
+				"testnet": "0x250ed09c50c9c6de"
 			}
 		},
 		"ViewResolver": {
 			"source": "./cadence/contracts/standard/ViewResolver.cdc",
 			"aliases": {
 				"emulator": "0xf8d6e0586b0a20c7",
-				"testnet": "0x0fb46f70bfa68d94"
+				"testnet": "0x250ed09c50c9c6de"
 			}
 		},
 		"MainContractV2": {
 			"source": "./cadence/contracts/MainContractV2.cdc",
 			"aliases": {
 				"emulator": "0xf8d6e0586b0a20c7",
-				"testnet": "0x0fb46f70bfa68d94"
+				"testnet": "0x250ed09c50c9c6de"
 			}
 		},
 		"InferenceNFT": {
 			"source": "./cadence/contracts/InferenceNFT.cdc",
 			"aliases": {
 				"emulator": "0xf8d6e0586b0a20c7",
-				"testnet": "0x0fb46f70bfa68d94"
+				"testnet": "0x250ed09c50c9c6de"
 			}
 		}
 	},
@@ -120,8 +120,12 @@
 			"key": "736ebd5b5402dde63564271ac65f6f49b1e7bf58a5a269c9011bbba8758db17b"
 		},
 		"testnet-account": {
-			"address": "0fb46f70bfa68d94",
-			"key": "078874df2985c18378d2ffc34682f443a13170bc800f88ac88d861db60922c9e"
+			"address": "250ed09c50c9c6de",
+			"key": "67ebc07e87cdd5abbcb716a15b6e223676cbf224b95af02f47b21947228b9b27"
+		},
+		"testnet-node": {
+			"address": "340520455ca85a89",
+			"key": "d1e66087d7e22010051ef8abfcad75caeab5ef4144581159c5cfb50474ad68d4"
 		}
 	},
 	"deployments": {
