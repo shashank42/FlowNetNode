@@ -86,6 +86,7 @@ def main_loop():
     with open('flow.json', 'r') as f:
         flow_json = json.load(f)
         responder_address = flow_json["accounts"]["testnet-account"]["address"]
+        responder_address = "0x" + responder_address
         
     loop = asyncio.get_event_loop()
     try:

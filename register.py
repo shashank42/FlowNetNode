@@ -53,6 +53,5 @@ async def register_responder(
     print(cmd)
     arch = subprocess.check_output(cmd, shell=True)
     print(arch)
+
     
-    
-        
