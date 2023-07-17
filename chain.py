@@ -63,7 +63,6 @@ async def log_loop(poll_interval, responder_address):
             found = False
             for response_id in responses.value:
                 res_id = int(str(response_id.key))
-                print("Request ID = {}".format(req_id), " || Response ID = {}".format(res_id))
                 if req_id == res_id:
                     found = True
                     break
