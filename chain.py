@@ -27,7 +27,7 @@ async def get_responses():
         code="""
                 import FlowNet from 0xa63112fad5c0e684
                 pub fun main(): {UInt64: FlowNet.Response} {
-                    return FlowNet)
+                    return FlowNet.getResponses()
                 }
             """
     )

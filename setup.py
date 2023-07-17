@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 with open("requirements.txt", "r", encoding="utf-8") as fh:
     requirements = fh.read()
 setup(
-    name = 'decent-ai',
+    name = 'flownet-ai',
     version = '0.0.1',
     author = 'Shashank',
     author_email = 'savvy.shashank@gmail.com',
@@ -23,6 +23,6 @@ setup(
     ],
     entry_points = '''
         [console_scripts]
-        decentai=main:cli
+        flownetai=main:cli
     '''
 )

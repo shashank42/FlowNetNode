@@ -86,7 +86,7 @@ def infer(prompt, request_id, strength=.75, num_inference_steps=70, guidance_sca
     file_ipfs = pinata.pin_file_to_ipfs("test.png")
     
     metadata_json = {
-        "name": "Decent AI Inference",
+        "name": "FlowNet AI Inference",
         "description": prompt,
         "image": file_ipfs["IpfsHash"],
         "attributes": [

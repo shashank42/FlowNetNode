@@ -1,9 +1,0 @@
-README.md
-main.py
-setup.py
-denver_infer.egg-info/PKG-INFO
-denver_infer.egg-info/SOURCES.txt
-denver_infer.egg-info/dependency_links.txt
-denver_infer.egg-info/entry_points.txt
-denver_infer.egg-info/requires.txt
-denver_infer.egg-info/top_level.txt
