@@ -43,7 +43,7 @@ async def get_responses():
 # asynchronous defined function to loop
 # this loop sets up an event filter and is looking for new entires for the "PairCreated" event
 # this loop runs on a poll interval
-async def log_loop(poll_interval):
+async def log_loop(poll_interval, responder_address):
     while True:
         requests = await get_requests()
         responses = await get_responses()
@@ -68,8 +68,11 @@ async def log_loop(poll_interval):
                     break
             if not found:
                 responder = str(requests.value[int(str(request_id.key))].value.fields["responder"])
-                print("Found pending request = {}".format(responder))
-                run_model(responder, request_id.key)
+                prompt = str(requests.value[int(str(request_id.key))].value.fields["prompt"])
+                
+                if responder_address == responder:
+                    print("Found pending request = {}".format(prompt))
+                    run_model(prompt, request_id.key)
             
         await asyncio.sleep(poll_interval)
 
@@ -79,11 +82,16 @@ async def log_loop(poll_interval):
 # run an async loop
 # try to run the log_loop function above every 2 seconds
 def main_loop():
+    responder_address = ""
+    with open('flow.json', 'r') as f:
+        flow_json = json.load(f)
+        responder_address = flow_json["accounts"]["testnet-account"]["address"]
+        
     loop = asyncio.get_event_loop()
     try:
         loop.run_until_complete(
             asyncio.gather(
-                log_loop(2)))
+                log_loop(2, responder_address)))
     finally:
         # close loop to free up system resources
         loop.close()

@@ -51,7 +51,6 @@ transaction(
             responderRecievingCapability: self.tokenReciever,
             responderNFTRecievingCapability: self.NFTRecievingCapability,
         )
-
     }
 }
 
