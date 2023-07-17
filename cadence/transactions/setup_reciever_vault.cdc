@@ -3,16 +3,16 @@
 // they can use the exampleToken
 
 import FungibleToken from "FungibleToken"
-import ExampleToken from "ExampleToken"
+import FlowNetToken from "FlowNetToken"
 import MetadataViews from "MetadataViews"
-import MainContractV2 from "MainContractV2"
+import FlowNet from "FlowNet"
 
 transaction () {
-    let vault: Capability<&ExampleToken.Vault{FungibleToken.Receiver}>
+    let vault: Capability<&FlowNetToken.Vault{FungibleToken.Receiver}>
     prepare(signer: AuthAccount){
-        self.vault = signer.getCapability<&ExampleToken.Vault{FungibleToken.Receiver}>(ExampleToken.ReceiverPublicPath)
+        self.vault = signer.getCapability<&FlowNetToken.Vault{FungibleToken.Receiver}>(FlowNetToken.ReceiverPublicPath)
     } execute{
-        MainContractV2.setUpRecieverVault(
+        FlowNet.setUpRecieverVault(
             requestorVault: vault
         )
     }

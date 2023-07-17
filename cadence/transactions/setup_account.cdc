@@ -3,17 +3,17 @@
 // they can use the exampleToken
 
 // import FungibleToken from "FungibleToken"
-// import ExampleToken from "ExampleToken"
+// import FlowNetToken from "FlowNetToken"
 // import MetadataViews from "MetadataViews"
-// import ExampleNFT from "ExampleNFT"
+// import NodeNFT from "NodeNFT"
 // import InferenceNFT from "InferenceNFT"
 // import NonFungibleToken from "NonFungibleToken"
 
 import FungibleToken from 0x9a0766d93b6608b7
-import ExampleToken from 0x250ed09c50c9c6de
+import FlowNetToken from 0xa63112fad5c0e684
 import MetadataViews from 0x631e88ae7f1d7c20
-import ExampleNFT from 0x250ed09c50c9c6de
-import InferenceNFT from 0x250ed09c50c9c6de
+import NodeNFT from 0xa63112fad5c0e684
+import InferenceNFT from 0xa63112fad5c0e684
 import NonFungibleToken from 0x631e88ae7f1d7c20
 
 
@@ -22,76 +22,76 @@ transaction () {
     prepare(signer: AuthAccount) {
 
         
-        // Return early if the account already stores a ExampleToken Vault
-        if signer.borrow<&ExampleToken.Vault>(from: ExampleToken.VaultStoragePath) != nil {
+        // Return early if the account already stores a FlowNetToken Vault
+        if signer.borrow<&FlowNetToken.Vault>(from: FlowNetToken.VaultStoragePath) != nil {
             
         } else {
-            log("Create a new ExampleToken Vault and put it in storage")
-            // Create a new ExampleToken Vault and put it in storage
+            log("Create a new FlowNetToken Vault and put it in storage")
+            // Create a new FlowNetToken Vault and put it in storage
             signer.save(
-                <-ExampleToken.createEmptyVault(),
-                to: ExampleToken.VaultStoragePath
+                <-FlowNetToken.createEmptyVault(),
+                to: FlowNetToken.VaultStoragePath
             )
 
             // Create a public capability to the Vault that only exposes
             // the deposit function through the Receiver interface
-            signer.link<&ExampleToken.Vault{FungibleToken.Receiver}>(
-                ExampleToken.ReceiverPublicPath,
-                target: ExampleToken.VaultStoragePath
+            signer.link<&FlowNetToken.Vault{FungibleToken.Receiver}>(
+                FlowNetToken.ReceiverPublicPath,
+                target: FlowNetToken.VaultStoragePath
             )
 
             // Create a public capability to the Vault that exposes the Balance and Resolver interfaces
-            signer.link<&ExampleToken.Vault{FungibleToken.Balance, MetadataViews.Resolver}>(
-                ExampleToken.VaultPublicPath,
-                target: ExampleToken.VaultStoragePath
+            signer.link<&FlowNetToken.Vault{FungibleToken.Balance, MetadataViews.Resolver}>(
+                FlowNetToken.VaultPublicPath,
+                target: FlowNetToken.VaultStoragePath
             )
 
             // // Create a public capability to the Vault that only exposes
             // // the deposit function through the Receiver interface
-            // signer.link<&ExampleToken.Vault{FungibleToken.Provider}>(
-            //     ExampleToken.VaultPublicPath,
-            //     target: ExampleToken.VaultStoragePath
+            // signer.link<&FlowNetToken.Vault{FungibleToken.Provider}>(
+            //     FlowNetToken.VaultPublicPath,
+            //     target: FlowNetToken.VaultStoragePath
             // )
         }
 
-        // Return early if the account already stores a ExampleToken Vault
-        if signer.borrow<&ExampleNFT.Collection>(from: ExampleNFT.CollectionStoragePath) != nil {
+        // Return early if the account already stores a FlowNetToken Vault
+        if signer.borrow<&NodeNFT.Collection>(from: NodeNFT.CollectionStoragePath) != nil {
             
         } else {
-            log("Create a new ExampleNFT EmptyCollection and put it in storage")
-            // Create a new ExampleToken Vault and put it in storage
+            log("Create a new NodeNFT EmptyCollection and put it in storage")
+            // Create a new FlowNetToken Vault and put it in storage
             signer.save(
-                <-ExampleNFT.createEmptyCollection(),
-                to: ExampleNFT.CollectionStoragePath
+                <-NodeNFT.createEmptyCollection(),
+                to: NodeNFT.CollectionStoragePath
             )
 
             // Create a public capability to the Vault that only exposes
             // the deposit function through the Receiver interface
-            signer.link<&ExampleNFT.Collection{NonFungibleToken.Receiver}>(
-                ExampleNFT.CollectionPublicPath,
-                target: ExampleNFT.CollectionStoragePath
+            signer.link<&NodeNFT.Collection{NonFungibleToken.Receiver}>(
+                NodeNFT.CollectionPublicPath,
+                target: NodeNFT.CollectionStoragePath
             )
 
             // // Create a public capability to the Vault that exposes the Balance and Resolver interfaces
-            // signer.link<&ExampleNFT.Vault{FungibleToken.Balance, MetadataViews.Resolver}>(
-            //     ExampleNFT.CollectionPublicPath,
-            //     target: ExampleNFT.CollectionStoragePath
+            // signer.link<&NodeNFT.Vault{FungibleToken.Balance, MetadataViews.Resolver}>(
+            //     NodeNFT.CollectionPublicPath,
+            //     target: NodeNFT.CollectionStoragePath
             // )
 
             // // Create a public capability to the Vault that only exposes
             // // the deposit function through the Receiver interface
-            // signer.link<&ExampleToken.Vault{FungibleToken.Provider}>(
-            //     ExampleToken.VaultPublicPath,
-            //     target: ExampleToken.VaultStoragePath
+            // signer.link<&FlowNetToken.Vault{FungibleToken.Provider}>(
+            //     FlowNetToken.VaultPublicPath,
+            //     target: FlowNetToken.VaultStoragePath
             // )
         }
 
-        // Return early if the account already stores a ExampleToken Vault
+        // Return early if the account already stores a FlowNetToken Vault
         if signer.borrow<&InferenceNFT.Collection>(from: InferenceNFT.CollectionStoragePath) != nil {
             
         } else {
             log("Create a new InferenceNFT EmptyCollection and put it in storage")
-            // Create a new ExampleToken Vault and put it in storage
+            // Create a new FlowNetToken Vault and put it in storage
             signer.save(
                 <-InferenceNFT.createEmptyCollection(),
                 to: InferenceNFT.CollectionStoragePath
@@ -105,16 +105,16 @@ transaction () {
             )
 
             // // Create a public capability to the Vault that exposes the Balance and Resolver interfaces
-            // signer.link<&ExampleNFT.Vault{FungibleToken.Balance, MetadataViews.Resolver}>(
-            //     ExampleNFT.CollectionPublicPath,
-            //     target: ExampleNFT.CollectionStoragePath
+            // signer.link<&NodeNFT.Vault{FungibleToken.Balance, MetadataViews.Resolver}>(
+            //     NodeNFT.CollectionPublicPath,
+            //     target: NodeNFTllectionStoragePath
             // )
 
             // // Create a public capability to the Vault that only exposes
             // // the deposit function through the Receiver interface
-            // signer.link<&ExampleToken.Vault{FungibleToken.Provider}>(
-            //     ExampleToken.VaultPublicPath,
-            //     target: ExampleToken.VaultStoragePath
+            // signer.link<&FlowNetToken.Vault{FungibleToken.Provider}>(
+            //     FlowNetToken.VaultPublicPath,
+            //     target: FlowNetToken.VaultStoragePath
             // )
         }
         

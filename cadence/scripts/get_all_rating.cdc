@@ -1,13 +1,13 @@
 // This script reads the balance field
-// of an account's ExampleToken Balance
+// of an account's FlowNetToken Balance
 
-import MainContractV2 from "MainContractV2"
+import FlowNet from "FlowNet"
 
-pub fun main(address: Address): {UInt64: MainContractV2.Rating} {
+pub fun main(address: Address): {UInt64: FlowNet.Rating} {
     // let account = getAccount(address)
-    // let vaultRef = account.getCapability(ExampleToken.VaultPublicPath)
-    //     .borrow<&ExampleToken.Vault{FungibleToken.Balance}>()
+    // let vaultRef = account.getCapability(FlowNetToken.VaultPublicPath)
+    //     .borrow<&FlowNetToken.Vault{FungibleToken.Balance}>()
     //     ?? panic("Could not borrow Balance reference to the Vault")
 
-    return MainContractV2.getAllRatings()
+    return FlowNet.getAllRatings()
 }

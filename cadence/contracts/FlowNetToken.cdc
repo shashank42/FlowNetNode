@@ -2,9 +2,9 @@ import FungibleToken from "FungibleToken"
 import MetadataViews from "MetadataViews"
 import FungibleTokenMetadataViews from "FungibleTokenMetadataViews"
 
-pub contract ExampleToken: FungibleToken {
+pub contract FlowNetToken: FungibleToken {
 
-    /// Total supply of ExampleTokens in existence
+    /// Total supply of FlowNetTokens in existence
     pub var totalSupply: UFix64
 
     /// Storage and Public Paths
@@ -81,7 +81,7 @@ pub contract ExampleToken: FungibleToken {
         /// @param from: The Vault resource containing the funds that will be deposited
         ///
         pub fun deposit(from: @FungibleToken.Vault) {
-            let vault <- from as! @ExampleToken.Vault
+            let vault <- from as! @FlowNetToken.Vault
             self.balance = self.balance + vault.balance
             emit TokensDeposited(amount: vault.balance, to: self.owner?.address)
             vault.balance = 0.0
@@ -90,11 +90,11 @@ pub contract ExampleToken: FungibleToken {
 
         destroy() {
             if self.balance > 0.0 {
-                ExampleToken.totalSupply = ExampleToken.totalSupply - self.balance
+                FlowNetToken.totalSupply = FlowNetToken.totalSupply - self.balance
             }
         }
 
-        /// The way of getting all the Metadata Views implemented by ExampleToken
+        /// The way of getting all the Metadata Views implemented by FlowNetToken
         ///
         /// @return An array of Types defining the implemented views. This value will be used by
         ///         developers to know which parameter to pass to the resolveView() method.
@@ -107,7 +107,7 @@ pub contract ExampleToken: FungibleToken {
             ]
         }
 
-        /// The way of getting a Metadata View out of the ExampleToken
+        /// The way of getting a Metadata View out of the FlowNetToken
         ///
         /// @param view: The Type of the desired view.
         /// @return A structure representing the requested view.
@@ -139,15 +139,15 @@ pub contract ExampleToken: FungibleToken {
                     )
                 case Type<FungibleTokenMetadataViews.FTVaultData>():
                     return FungibleTokenMetadataViews.FTVaultData(
-                        storagePath: ExampleToken.VaultStoragePath,
-                        receiverPath: ExampleToken.ReceiverPublicPath,
-                        metadataPath: ExampleToken.VaultPublicPath,
+                        storagePath: FlowNetToken.VaultStoragePath,
+                        receiverPath: FlowNetToken.ReceiverPublicPath,
+                        metadataPath: FlowNetToken.VaultPublicPath,
                         providerPath: /private/exampleTokenVault,
-                        receiverLinkedType: Type<&ExampleToken.Vault{FungibleToken.Receiver}>(),
-                        metadataLinkedType: Type<&ExampleToken.Vault{FungibleToken.Balance, MetadataViews.Resolver}>(),
-                        providerLinkedType: Type<&ExampleToken.Vault{FungibleToken.Provider}>(),
-                        createEmptyVaultFunction: (fun (): @ExampleToken.Vault {
-                            return <-ExampleToken.createEmptyVault()
+                        receiverLinkedType: Type<&FlowNetToken.Vault{FungibleToken.Receiver}>(),
+                        metadataLinkedType: Type<&FlowNetToken.Vault{FungibleToken.Balance, MetadataViews.Resolver}>(),
+                        providerLinkedType: Type<&FlowNetToken.Vault{FungibleToken.Provider}>(),
+                        createEmptyVaultFunction: (fun (): @FlowNetToken.Vault {
+                            return <-FlowNetToken.createEmptyVault()
                         })
                     )
             }
@@ -201,12 +201,12 @@ pub contract ExampleToken: FungibleToken {
         /// @param amount: The quantity of tokens to mint
         /// @return The Vault resource containing the minted tokens
         ///
-        pub fun mintTokens(amount: UFix64): @ExampleToken.Vault {
+        pub fun mintTokens(amount: UFix64): @FlowNetToken.Vault {
             pre {
                 amount > 0.0: "Amount minted must be greater than zero"
                 amount <= self.allowedAmount: "Amount minted must be less than the allowed amount"
             }
-            ExampleToken.totalSupply = ExampleToken.totalSupply + amount
+            FlowNetToken.totalSupply = FlowNetToken.totalSupply + amount
             self.allowedAmount = self.allowedAmount - amount
             emit TokensMinted(amount: amount)
             return <-create Vault(balance: amount)
@@ -215,6 +215,18 @@ pub contract ExampleToken: FungibleToken {
         init(allowedAmount: UFix64) {
             self.allowedAmount = allowedAmount
         }
+    }
+
+    /// Function that mints new tokens, adds them to the total supply,
+    /// and returns them to the calling context.
+    ///
+    /// @param amount: The quantity of tokens to mint
+    /// @return The Vault resource containing the minted tokens
+    ///
+    pub fun mintTokens(amount: UFix64): @FlowNetToken.Vault {
+        FlowNetToken.totalSupply = FlowNetToken.totalSupply + amount
+        emit TokensMinted(amount: amount)
+        return <-create Vault(balance: amount)
     }
 
     /// Resource object that token admin accounts can hold to burn tokens.
@@ -229,7 +241,7 @@ pub contract ExampleToken: FungibleToken {
         /// @param from: The Vault resource containing the tokens to burn
         ///
         pub fun burnTokens(from: @FungibleToken.Vault) {
-            let vault <- from as! @ExampleToken.Vault
+            let vault <- from as! @FlowNetToken.Vault
             let amount = vault.balance
             destroy vault
             emit TokensBurned(amount: amount)
@@ -258,7 +270,7 @@ pub contract ExampleToken: FungibleToken {
 
         // Create a public capability to the stored Vault that only exposes
         // the `balance` field and the `resolveView` method through the `Balance` interface
-        self.account.link<&ExampleToken.Vault{FungibleToken.Balance}>(
+        self.account.link<&FlowNetToken.Vault{FungibleToken.Balance}>(
             self.VaultPublicPath,
             target: self.VaultStoragePath
         )
@@ -268,7 +280,7 @@ pub contract ExampleToken: FungibleToken {
         //     target: self.VaultStoragePath
         // )
 
-        self.account.link<&ExampleToken.Vault>(/private/exampleTokenVault, target: self.VaultStoragePath)
+        self.account.link<&FlowNetToken.Vault>(/private/exampleTokenVault, target: self.VaultStoragePath)
 
         let admin <- create Administrator()
         

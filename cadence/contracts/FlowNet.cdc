@@ -1,14 +1,14 @@
 import FungibleToken from "FungibleToken"
 import NonFungibleToken from "NonFungibleToken"
-import ExampleToken from "ExampleToken"
+import FlowNetToken from "FlowNetToken"
 import MetadataViews from "MetadataViews"
-import ExampleNFT from "ExampleNFT"
+import NodeNFT from "NodeNFT"
 import InferenceNFT from "InferenceNFT"
-// import FlowToken from 0x7e60df042a9c0868
 
-pub contract MainContractV2 { // NonFungibleToken.Receiver, NonFungibleToken.Provider
 
-    // pub let FlowTokenVault: Capability<&ExampleToken.Vault{FungibleToken.Receiver}>
+pub contract FlowNet { // NonFungibleToken.Receiver, NonFungibleToken.Provider
+
+    // pub let FlowTokenVault: Capability<&FlowNetToken.Vault{FungibleToken.Receiver}>
 
     // Structs
     pub struct Request {
@@ -110,8 +110,7 @@ pub contract MainContractV2 { // NonFungibleToken.Receiver, NonFungibleToken.Pro
 
     pub event ResponderAdded(
             responder: Address,
-            cost: UInt64,
-            tokenId: UInt64
+            cost: UInt64
     )
 
 
@@ -147,8 +146,7 @@ pub contract MainContractV2 { // NonFungibleToken.Receiver, NonFungibleToken.Pro
         requestor: Address, 
         responder: Address, 
         offer: UInt64,
-        requestorVault: @ExampleToken.Vault,
-        receiverCapability: &{FungibleToken.Receiver}
+        requestorVault: @FlowNetToken.Vault
     ) {
         pre {
             requestorVault.balance == UFix64(offer): "Payment is not equal to the price of NFT"
@@ -160,7 +158,10 @@ pub contract MainContractV2 { // NonFungibleToken.Receiver, NonFungibleToken.Pro
             requestor: requestor,
             prompt: prompt
         )
+
+        let receiverCapability = self.account.getCapability(FlowNetToken.ReceiverPublicPath).borrow<&{FungibleToken.Receiver}>()!
         receiverCapability.deposit(from: <- requestorVault)
+
         if (self.staked[requestor] == nil) {
             self.staked[requestor] = UInt64(0)
         }
@@ -185,7 +186,6 @@ pub contract MainContractV2 { // NonFungibleToken.Receiver, NonFungibleToken.Pro
         id: UInt64, 
         url: String, 
         responder: Address,
-        tokenProvider: Capability<&ExampleToken.Vault>,
         responderRecievingCapability: &{FungibleToken.Receiver},
         responderNFTRecievingCapability: &{NonFungibleToken.CollectionPublic}
         ) {
@@ -198,8 +198,11 @@ pub contract MainContractV2 { // NonFungibleToken.Receiver, NonFungibleToken.Pro
                 assert(request.offer <= responderData.cost, message: "Insufficient offer")
 
                 self.responses[id] = self.Response(url: url, responder: responder)
-                responderRecievingCapability.deposit(from: <- tokenProvider.borrow()!.withdraw(amount: UFix64(1)))
-                ExampleNFT.mintNFT(
+
+                let sendingCapability = self.account.getCapability<&FlowNetToken.Vault>(/private/exampleTokenVault)
+                responderRecievingCapability.deposit(from: <- sendingCapability.borrow()!.withdraw(amount: UFix64(request.offer)))
+
+                InferenceNFT.mintNFT(
                     recipient: responderNFTRecievingCapability,
                     name: "FlowAI Inference NFT",
                     description: request.prompt,
@@ -242,8 +245,7 @@ pub contract MainContractV2 { // NonFungibleToken.Receiver, NonFungibleToken.Pro
         recipient: &{NonFungibleToken.CollectionPublic},
         name: String,
         description: String,
-        thumbnail: String,
-        minter: &ExampleNFT.NFTMinter
+        thumbnail: String
         ) {
 
         self.responders[responder] = Responder(
@@ -253,7 +255,7 @@ pub contract MainContractV2 { // NonFungibleToken.Receiver, NonFungibleToken.Pro
             cost: UInt64(cost)
         )
 
-        var tokenId = minter!.mintNFT(
+        NodeNFT.mintNFT(
             recipient: recipient,
             name: name,
             description: description,
@@ -261,7 +263,7 @@ pub contract MainContractV2 { // NonFungibleToken.Receiver, NonFungibleToken.Pro
             royalties: [] as [MetadataViews.Royalty]
         )
 
-        emit ResponderAdded(responder: responder, cost: UInt64(cost), tokenId: tokenId)
+        emit ResponderAdded(responder: responder, cost: UInt64(cost))
     }
 
 
@@ -276,14 +278,12 @@ pub contract MainContractV2 { // NonFungibleToken.Receiver, NonFungibleToken.Pro
         } else {
             panic("Responder not found")
         }
-        // @todo add destroy nft here
         emit ResponderRemoved(responder: responder)
     }
 
     pub fun rateInference(
         id: UInt64, 
         rating: UInt64,
-        minter: &ExampleToken.Minter,
         receiverCapability: &{FungibleToken.Receiver},
         rater: Address
         ) {
@@ -314,7 +314,7 @@ pub contract MainContractV2 { // NonFungibleToken.Receiver, NonFungibleToken.Pro
             }
 
              // Create a minter and mint tokens
-            let mintedVault <- minter.mintTokens(amount: UFix64(self.RATING_REWARD))
+            let mintedVault <- FlowNetToken.mintTokens(amount: UFix64(self.RATING_REWARD))
 
             // Deposit them to the receiever
             receiverCapability.deposit(from: <-mintedVault)
@@ -330,15 +330,6 @@ pub contract MainContractV2 { // NonFungibleToken.Receiver, NonFungibleToken.Pro
         }
     }
 
-    // // Implement NonFungibleToken.Receiver
-    // pub fun onNonFungibleTokenSent(id: UInt64, data: [UInt8]): UFix64 {
-    //     return UFix64(0.0)
-    // }
-
-    // // Implement NonFungibleToken.Provider
-    // pub fun addressesApprovedFor(tokenID: UInt64): [Address] {
-    //     return []
-    // }
 
     // Bunch of get functions
     pub fun getResponders(): {Address: Responder} {
@@ -365,8 +356,6 @@ pub contract MainContractV2 { // NonFungibleToken.Receiver, NonFungibleToken.Pro
     pub fun getAllRatings(): {UInt64: Rating} {
         return self.ratings
     }
-
-
 
 
 }

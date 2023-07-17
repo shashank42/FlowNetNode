@@ -1,12 +1,14 @@
-// import MainContractV2 from "MainContractV2"
+// import FlowNet from "FlowNet"
 // import NonFungibleToken from "NonFungibleToken"
-// import ExampleNFT from "ExampleNFT"
+// import NodeNFT from "NodeNFT"
 
-import MainContractV2 from 0x250ed09c50c9c6de
-import NonFungibleToken from 0x631e88ae7f1d7c20
-import ExampleNFT from 0x250ed09c50c9c6de
 import MetadataViews from 0x631e88ae7f1d7c20
+import NonFungibleToken from 0x631e88ae7f1d7c20
+import FungibleToken from 0x9a0766d93b6608b7
 
+import FlowNet from 0xa63112fad5c0e684
+import NodeNFT from 0xa63112fad5c0e684
+import FlowNetToken from 0xa63112fad5c0e684
 
 transaction( 
     cost: Int, 
@@ -16,24 +18,44 @@ transaction(
     thumbnail: String,
  ){ 
     let NFTRecievingCapability: &{NonFungibleToken.CollectionPublic}
-    let minter: &ExampleNFT.NFTMinter
     let address: Address
 
     prepare(signer: AuthAccount){
         self.address = signer.address
 
-        if signer.borrow<&AnyResource>(from: ExampleNFT.CollectionStoragePath) == nil {
-            signer.save(<- ExampleNFT.createEmptyCollection(), to: ExampleNFT.CollectionStoragePath)
-            signer.link<&AnyResource{NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection}>(ExampleNFT.CollectionPublicPath, target: ExampleNFT.CollectionStoragePath)
+        if signer.borrow<&AnyResource>(from: NodeNFT.CollectionStoragePath) == nil {
+            signer.save(<- NodeNFT.createEmptyCollection(), to: NodeNFT.CollectionStoragePath)
+            signer.link<&AnyResource{NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection}>(NodeNFT.CollectionPublicPath, target: NodeNFT.CollectionStoragePath)
         }
 
+        if signer.borrow<&FlowNetToken.Vault>(from: FlowNetToken.VaultStoragePath) != nil {
+        } else {
+            signer.save(
+                <-FlowNetToken.createEmptyVault(),
+                to: FlowNetToken.VaultStoragePath
+            )
+
+            signer.link<&FlowNetToken.Vault{FungibleToken.Receiver}>(
+                FlowNetToken.ReceiverPublicPath,
+                target: FlowNetToken.VaultStoragePath
+            )
+            signer.link<&FlowNetToken.Vault{FungibleToken.Balance, MetadataViews.Resolver}>(
+                FlowNetToken.VaultPublicPath,
+                target: FlowNetToken.VaultStoragePath
+            )
+            signer.link<&FlowNetToken.Vault{FungibleToken.Provider}>(
+                FlowNetToken.VaultPublicPath,
+                target: FlowNetToken.VaultStoragePath
+            )
+        }  
+
         self.NFTRecievingCapability = signer
-            .getCapability(ExampleNFT.CollectionPublicPath)
+            .getCapability(NodeNFT.CollectionPublicPath)
             .borrow<&{NonFungibleToken.CollectionPublic}>()!
             
     }
     execute {
-        MainContractV2.registerResponder(
+        FlowNet.registerResponder(
             cost: UInt64(cost), 
             url: url, 
             responder: self.address,

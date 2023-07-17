@@ -1,72 +1,73 @@
 
-// import MainContractV2 from "MainContractV2"
-// import ExampleToken from "ExampleToken"
+// import FlowNet from "FlowNet"
+// import FlowNetToken from "FlowNetToken"
 // import FungibleToken from "FungibleToken"
-// import ExampleNFT from "ExampleNFT"
+// import NodeNFT from "NodeNFT"
 // import NonFungibleToken from "NonFungibleToken"
 // import InferenceNFT from "InferenceNFT"
 
-
-import MainContractV2 from 0x250ed09c50c9c6de
-import ExampleToken from 0x250ed09c50c9c6de
+import MetadataViews from 0x631e88ae7f1d7c20
+import FlowNet from 0xa63112fad5c0e684
+import FlowNetToken from 0xa63112fad5c0e684
 import FungibleToken from 0x9a0766d93b6608b7
-import ExampleNFT from 0x250ed09c50c9c6de
+import NodeNFT from 0xa63112fad5c0e684
 import NonFungibleToken from 0x631e88ae7f1d7c20
-import InferenceNFT from 0x250ed09c50c9c6de
+import InferenceNFT from 0xa63112fad5c0e684
 
 
-transaction(id: UInt64, rating: UInt64){ //type: String, url: String
+transaction(id: UInt64, rating: UInt64){
 
-    // The Vault resource that holds the tokens that are being transferred
-    // let reciever: @ExampleToken.Vault
-    let vault: Capability //<&ExampleToken.Vault{FungibleToken.Receiver}>
-    /// Reference to the Fungible Token Receiver of the recipient
-    // let tokenProvider: &{FungibleToken.Provider}
+    let vault: Capability
     let tokenReciever: &{FungibleToken.Receiver}
-    let NFTRecievingCapability: &{NonFungibleToken.CollectionPublic}
-    let minter: &ExampleToken.Minter
 
-    let senderVault: Capability<&ExampleToken.Vault>
+    let senderVault: Capability<&FlowNetToken.Vault>
 
     let address: Address
 
     prepare(signer: AuthAccount){
 
-        // self.sender <- signer.borrow<&ExampleToken.Vault>(from: ExampleToken.VaultStoragePath)!.withdraw(amount: UFix64(1)) as! @ExampleToken.Vault
+        // Return early if the account already stores a FlowNetToken Vault
+        if signer.borrow<&FlowNetToken.Vault>(from: FlowNetToken.VaultStoragePath) != nil {
+            
+        } else {
+            log("Create a new FlowNetToken Vault and put it in storage")
+            // Create a new FlowNetToken Vault and put it in storage
+            signer.save(
+                <-FlowNetToken.createEmptyVault(),
+                to: FlowNetToken.VaultStoragePath
+            )
 
-        // Get the account of the recipient and borrow a reference to their receiver
-        var account = getAccount(0xf8d6e0586b0a20c7)
-        // self.tokenProvider = account
-        //     .getCapability(ExampleToken.VaultStoragePath)
-        //     .borrow<&{FungibleToken.Provider}>()
-        //     ?? panic("Unable to borrow provider reference")
+            // Create a public capability to the Vault that only exposes
+            // the deposit function through the Receiver interface
+            signer.link<&FlowNetToken.Vault{FungibleToken.Receiver}>(
+                FlowNetToken.ReceiverPublicPath,
+                target: FlowNetToken.VaultStoragePath
+            )
 
-        self.senderVault = signer.getCapability<&ExampleToken.Vault>(/private/exampleTokenVault)
+            // Create a public capability to the Vault that exposes the Balance and Resolver interfaces
+            signer.link<&FlowNetToken.Vault{FungibleToken.Balance, MetadataViews.Resolver}>(
+                FlowNetToken.VaultPublicPath,
+                target: FlowNetToken.VaultStoragePath
+            )
+        }
 
+        self.senderVault = signer.getCapability<&FlowNetToken.Vault>(/private/exampleTokenVault)
 
         self.tokenReciever = signer
-            .getCapability(ExampleToken.ReceiverPublicPath)
+            .getCapability(FlowNetToken.ReceiverPublicPath)
             .borrow<&{FungibleToken.Receiver}>()
             ?? panic("Unable to borrow receiver reference")
 
-        self.vault = signer.getCapability(ExampleToken.ReceiverPublicPath)
+        self.vault = signer.getCapability(FlowNetToken.ReceiverPublicPath)
 
-        self.NFTRecievingCapability = getAccount(signer.address).getCapability(InferenceNFT.CollectionPublicPath) 
-                        .borrow<&InferenceNFT.Collection{NonFungibleToken.CollectionPublic}>()
-                        ?? panic("Failed to get User's collection.")
-
-        // Borrow a reference to the Minter resource in storage
-        self.minter = signer.borrow<&ExampleToken.Minter>(from: ExampleToken.MinterStoragePath)
-            ?? panic("Account does not store an object at the specified path")
 
         self.address = signer.address
 
     }
     execute{
-        MainContractV2.rateInference(
+        FlowNet.rateInference(
             id: id, 
             rating: rating,
-            minter: self.minter,
             receiverCapability: self.tokenReciever,
             rater: self.address
         )

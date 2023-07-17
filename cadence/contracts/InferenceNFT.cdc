@@ -332,6 +332,50 @@ pub contract InferenceNFT: NonFungibleToken, ViewResolver {
         }
     }
 
+    /// Mints a new NFT with a new ID and deposit it in the
+        /// recipients collection using their collection reference
+        ///
+        /// @param recipient: A capability to the collection where the new NFT will be deposited
+        /// @param name: The name for the NFT metadata
+        /// @param description: The description for the NFT metadata
+        /// @param thumbnail: The thumbnail for the NFT metadata
+        /// @param royalties: An array of Royalty structs, see MetadataViews docs
+        ///
+        pub fun mintNFT(
+            recipient: &{NonFungibleToken.CollectionPublic},
+            name: String,
+            description: String,
+            thumbnail: String,
+            royalties: [MetadataViews.Royalty]
+        ): UInt64 {
+            let metadata: {String: AnyStruct} = {}
+            let currentBlock = getCurrentBlock()
+            metadata["mintedBlock"] = currentBlock.height
+            metadata["mintedTime"] = currentBlock.timestamp
+            metadata["minter"] = recipient.owner!.address
+
+            // this piece of metadata will be used to show embedding rarity into a trait
+            metadata["foo"] = "bar"
+
+            // create a new NFT
+            var newNFT <- create NFT(
+                id: InferenceNFT.totalSupply,
+                name: name,
+                description: description,
+                thumbnail: thumbnail,
+                royalties: royalties,
+                metadata: metadata,
+            )
+
+            
+
+            // deposit it in the recipient's account using their reference
+            recipient.deposit(token: <-newNFT)
+
+            InferenceNFT.totalSupply = InferenceNFT.totalSupply + UInt64(1)
+            return InferenceNFT.totalSupply - UInt64(1)
+        }
+
     /// Function that resolves a metadata view for this contract.
     ///
     /// @param view: The Type of the desired view.

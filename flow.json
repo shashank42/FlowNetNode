@@ -22,11 +22,11 @@
                 "testnet": "0x9a0766d93b6608b7"
             }
         },    
-        "ExampleToken": {
-            "source": "./cadence/contracts/ExampleToken.cdc",
+        "FlowNetToken": {
+            "source": "./cadence/contracts/FlowNetToken.cdc",
             "alias": {
                 "emulator": "0xf8d6e0586b0a20c7",
-				"testnet": "0x250ed09c50c9c6de"
+				"testnet": "0xa63112fad5c0e684"
             }
         },
         "NonFungibleToken": {
@@ -72,32 +72,32 @@
 				"emulator": "0xf8d6e0586b0a20c7"
 			}
 		},
-    	"ExampleNFT": {
-			"source": "./cadence/contracts/ExampleNFT.cdc",
+    	"NodeNFT": {
+			"source": "./cadence/contracts/NodeNFT.cdc",
 			"aliases": {
 				"emulator": "0xf8d6e0586b0a20c7",
-				"testnet": "0x250ed09c50c9c6de"
+				"testnet": "0xa63112fad5c0e684"
 			}
 		},
 		"ViewResolver": {
 			"source": "./cadence/contracts/standard/ViewResolver.cdc",
 			"aliases": {
 				"emulator": "0xf8d6e0586b0a20c7",
-				"testnet": "0x250ed09c50c9c6de"
+				"testnet": "0xa63112fad5c0e684"
 			}
 		},
-		"MainContractV2": {
-			"source": "./cadence/contracts/MainContractV2.cdc",
+		"FlowNet": {
+			"source": "./cadence/contracts/FlowNet.cdc",
 			"aliases": {
 				"emulator": "0xf8d6e0586b0a20c7",
-				"testnet": "0x250ed09c50c9c6de"
+				"testnet": "0xa63112fad5c0e684"
 			}
 		},
 		"InferenceNFT": {
 			"source": "./cadence/contracts/InferenceNFT.cdc",
 			"aliases": {
 				"emulator": "0xf8d6e0586b0a20c7",
-				"testnet": "0x250ed09c50c9c6de"
+				"testnet": "0xa63112fad5c0e684"
 			}
 		}
 	},
@@ -120,20 +120,24 @@
 			"key": "736ebd5b5402dde63564271ac65f6f49b1e7bf58a5a269c9011bbba8758db17b"
 		},
 		"testnet-account": {
-			"address": "250ed09c50c9c6de",
-			"key": "67ebc07e87cdd5abbcb716a15b6e223676cbf224b95af02f47b21947228b9b27"
+			"address": "a63112fad5c0e684",
+			"key": "2784cf0c4f7c0f1faaae3f084495648c98af7d0d4261c24aef6f47268cdaaa67"
 		},
 		"testnet-node": {
-			"address": "340520455ca85a89",
-			"key": "d1e66087d7e22010051ef8abfcad75caeab5ef4144581159c5cfb50474ad68d4"
+			"address": "b5f06e85aa85be7f",
+			"key": "1360432743fc6f15d6df28d6ca66d65d7a992a2446f5ffcc7c5467b2e97a308d"
+		},
+		"testnet-client": {
+			"address": "28d768bb3160bbc1",
+			"key": "0d95c1db9cd63fa2e5a57b07a6e7b0629b09bc3fa8182dbb8b291ddebd758c8d"
 		}
 	},
 	"deployments": {
 		"emulator": {
-			"emulator-account": ["NonFungibleToken", "FungibleToken", "MetadataViews", "FungibleTokenMetadataViews",  "ViewResolver", "ExampleToken",  "ExampleNFT", "InferenceNFT", "MainContractV2"]
+			"emulator-account": ["NonFungibleToken", "FungibleToken", "MetadataViews", "FungibleTokenMetadataViews",  "ViewResolver", "FlowNetToken",  "NodeNFT", "InferenceNFT", "FlowNet"]
 		},
 		"testnet": {
-			"testnet-account": [ "ViewResolver", "ExampleToken",  "ExampleNFT", "InferenceNFT", "MainContractV2"]
+			"testnet-account": [ "ViewResolver", "FlowNetToken",  "NodeNFT", "InferenceNFT", "FlowNet"]
 		}
 	}
 }

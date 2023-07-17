@@ -1,47 +1,34 @@
-// import MainContractV2 from "MainContractV2"
-// import ExampleToken from "ExampleToken"
+// import FlowNet from "FlowNet"
+// import FlowNetToken from "FlowNetToken"
 // import FungibleToken from "FungibleToken"
 
 
-import MainContractV2 from 0x250ed09c50c9c6de
-import ExampleToken from 0x250ed09c50c9c6de
+import FlowNet from 0xa63112fad5c0e684
+import FlowNetToken from 0xa63112fad5c0e684
 import FungibleToken from 0x9a0766d93b6608b7
 
 
 transaction(responder: Address, prompt: String, offer: UInt64){
-
-    // The Vault resource that holds the tokens that are being transferred
-    let sender: @ExampleToken.Vault
-    let vault: Capability //<&ExampleToken.Vault{FungibleToken.Receiver}>
-    /// Reference to the Fungible Token Receiver of the recipient
-    let tokenReceiver: &{FungibleToken.Receiver}
+    let sender: @FlowNetToken.Vault
+    let vault: Capability
     let address: Address
-
 
     prepare(signer: AuthAccount){
 
-        self.sender <- signer.borrow<&ExampleToken.Vault>(from: ExampleToken.VaultStoragePath)!.withdraw(amount: UFix64(offer)) as! @ExampleToken.Vault
+        self.sender <- signer.borrow<&FlowNetToken.Vault>(from: FlowNetToken.VaultStoragePath)!.withdraw(amount: UFix64(offer)) as! @FlowNetToken.Vault
 
-        // Get the account of the recipient and borrow a reference to their receiver
-        var account = getAccount(0x250ed09c50c9c6de)
-        self.tokenReceiver = account
-            .getCapability(ExampleToken.ReceiverPublicPath)
-            .borrow<&{FungibleToken.Receiver}>()
-            ?? panic("Unable to borrow receiver reference")
-
-        self.vault = signer.getCapability(ExampleToken.ReceiverPublicPath)
+        self.vault = signer.getCapability(FlowNetToken.ReceiverPublicPath)
 
         self.address = signer.address
     }
 
     execute{
-        MainContractV2.requestInference(
+        FlowNet.requestInference(
             prompt: prompt, 
             requestor: self.address,
             responder: responder,
             offer: offer,
-            requestorVault: <- self.sender,
-            receiverCapability: self.tokenReceiver
+            requestorVault: <- self.sender
         )
 
     }
