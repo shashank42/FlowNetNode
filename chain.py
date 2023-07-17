@@ -68,8 +68,12 @@ async def log_loop(poll_interval, responder_address):
                     found = True
                     break
             if not found:
-                responder = str(requests.value[int(str(request_id.key))].value.fields["responder"])
-                prompt = str(requests.value[int(str(request_id.key))].value.fields["prompt"])
+                
+                # responder = str(requests.value[int(str(request_id.key))].value.fields["responder"])
+                # prompt = str(requests.value[int(str(request_id.key))].value.fields["prompt"])
+
+                responder = str(request_id.value.fields["responder"])
+                prompt = str(request_id.value.fields["prompt"])
                 
                 if responder_address == responder:
                     print("Found pending request = {}".format(prompt))
