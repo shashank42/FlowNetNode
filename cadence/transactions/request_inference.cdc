@@ -3,8 +3,8 @@
 // import FungibleToken from "FungibleToken"
 
 
-import FlowNet from 0xa63112fad5c0e684
-import FlowNetToken from 0xa63112fad5c0e684
+import FlowNet from 0xd868d023029053e1
+import FlowNetToken from 0xd868d023029053e1
 import FungibleToken from 0x9a0766d93b6608b7
 
 

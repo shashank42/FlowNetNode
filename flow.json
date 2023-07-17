@@ -26,7 +26,7 @@
             "source": "./cadence/contracts/FlowNetToken.cdc",
             "alias": {
                 "emulator": "0xf8d6e0586b0a20c7",
-				"testnet": "0xa63112fad5c0e684"
+				"testnet": "0xd868d023029053e1"
             }
         },
         "NonFungibleToken": {
@@ -76,28 +76,28 @@
 			"source": "./cadence/contracts/NodeNFT.cdc",
 			"aliases": {
 				"emulator": "0xf8d6e0586b0a20c7",
-				"testnet": "0xa63112fad5c0e684"
+				"testnet": "0xd868d023029053e1"
 			}
 		},
 		"ViewResolver": {
 			"source": "./cadence/contracts/standard/ViewResolver.cdc",
 			"aliases": {
 				"emulator": "0xf8d6e0586b0a20c7",
-				"testnet": "0xa63112fad5c0e684"
+				"testnet": "0xd868d023029053e1"
 			}
 		},
 		"FlowNet": {
 			"source": "./cadence/contracts/FlowNet.cdc",
 			"aliases": {
 				"emulator": "0xf8d6e0586b0a20c7",
-				"testnet": "0xa63112fad5c0e684"
+				"testnet": "0xd868d023029053e1"
 			}
 		},
 		"InferenceNFT": {
 			"source": "./cadence/contracts/InferenceNFT.cdc",
 			"aliases": {
 				"emulator": "0xf8d6e0586b0a20c7",
-				"testnet": "0xa63112fad5c0e684"
+				"testnet": "0xd868d023029053e1"
 			}
 		}
 	},
@@ -120,12 +120,12 @@
 			"key": "736ebd5b5402dde63564271ac65f6f49b1e7bf58a5a269c9011bbba8758db17b"
 		},
 		"testnet-account": {
-			"address": "a63112fad5c0e684",
-			"key": "2784cf0c4f7c0f1faaae3f084495648c98af7d0d4261c24aef6f47268cdaaa67"
+			"address": "d868d023029053e1",
+			"key": "55b040746fcfc585acaccb5885408ed2775c3ab61bafbbb002f4e34519e0025c"
 		},
 		"testnet-node": {
-			"address": "b5f06e85aa85be7f",
-			"key": "1360432743fc6f15d6df28d6ca66d65d7a992a2446f5ffcc7c5467b2e97a308d"
+			"address": "3c0f69fe136a533e",
+			"key": "236fa5dfddc7e190d57248d27fe5e88050b8058cdd934ad91d272d811530d206"
 		},
 		"testnet-client": {
 			"address": "28d768bb3160bbc1",

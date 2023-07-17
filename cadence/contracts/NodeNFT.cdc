@@ -119,7 +119,7 @@ pub contract NodeNFT: NonFungibleToken, ViewResolver {
                     return MetadataViews.NFTCollectionData(
                         storagePath: NodeNFT.CollectionStoragePath,
                         publicPath: NodeNFT.CollectionPublicPath,
-                        providerPath: /private/exampleNFTCollection,
+                        providerPath: /private/NodeNFTCollection,
                         publicCollection: Type<&NodeNFT.Collection{NodeNFT.NodeNFTCollectionPublic}>(),
                         publicLinkedType: Type<&NodeNFT.Collection{NodeNFT.NodeNFTCollectionPublic,NonFungibleToken.CollectionPublic,NonFungibleToken.Receiver,MetadataViews.ResolverCollection}>(),
                         providerLinkedType: Type<&NodeNFT.Collection{NodeNFT.NodeNFTCollectionPublic,NonFungibleToken.CollectionPublic,NonFungibleToken.Provider,MetadataViews.ResolverCollection}>(),
@@ -265,8 +265,8 @@ pub contract NodeNFT: NonFungibleToken, ViewResolver {
         ///
         pub fun borrowViewResolver(id: UInt64): &AnyResource{MetadataViews.Resolver} {
             let nft = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
-            let exampleNFT = nft as! &NodeNFT.NFT
-            return exampleNFT as &AnyResource{MetadataViews.Resolver}
+            let NodeNFT = nft as! &NodeNFT.NFT
+            return NodeNFT as &AnyResource{MetadataViews.Resolver}
         }
 
         destroy() {
@@ -332,7 +332,16 @@ pub contract NodeNFT: NonFungibleToken, ViewResolver {
         }
     }
 
-    pub fun mintNFT(
+    /// Mints a new NFT with a new ID and deposit it in the
+        /// recipients collection using their collection reference
+        ///
+        /// @param recipient: A capability to the collection where the new NFT will be deposited
+        /// @param name: The name for the NFT metadata
+        /// @param description: The description for the NFT metadata
+        /// @param thumbnail: The thumbnail for the NFT metadata
+        /// @param royalties: An array of Royalty structs, see MetadataViews docs
+        ///
+        pub fun mintNFT(
             recipient: &{NonFungibleToken.CollectionPublic},
             name: String,
             description: String,
@@ -358,6 +367,8 @@ pub contract NodeNFT: NonFungibleToken, ViewResolver {
                 metadata: metadata,
             )
 
+            
+
             // deposit it in the recipient's account using their reference
             recipient.deposit(token: <-newNFT)
 
@@ -376,7 +387,7 @@ pub contract NodeNFT: NonFungibleToken, ViewResolver {
                 return MetadataViews.NFTCollectionData(
                     storagePath: NodeNFT.CollectionStoragePath,
                     publicPath: NodeNFT.CollectionPublicPath,
-                    providerPath: /private/exampleNFTCollection,
+                    providerPath: /private/NodeNFTCollection,
                     publicCollection: Type<&NodeNFT.Collection{NodeNFT.NodeNFTCollectionPublic}>(),
                     publicLinkedType: Type<&NodeNFT.Collection{NodeNFT.NodeNFTCollectionPublic,NonFungibleToken.CollectionPublic,NonFungibleToken.Receiver,MetadataViews.ResolverCollection}>(),
                     providerLinkedType: Type<&NodeNFT.Collection{NodeNFT.NodeNFTCollectionPublic,NonFungibleToken.CollectionPublic,NonFungibleToken.Provider,MetadataViews.ResolverCollection}>(),
@@ -422,9 +433,9 @@ pub contract NodeNFT: NonFungibleToken, ViewResolver {
         self.totalSupply = 0
 
         // Set the named paths
-        self.CollectionStoragePath = /storage/exampleNFTCollection
-        self.CollectionPublicPath = /public/exampleNFTCollection
-        self.MinterStoragePath = /storage/exampleNFTMinter
+        self.CollectionStoragePath = /storage/NodeNFTCollection
+        self.CollectionPublicPath = /public/NodeNFTCollection
+        self.MinterStoragePath = /storage/NodeNFTMinter
 
         // Create a Collection resource and save it to storage
         let collection <- create Collection()

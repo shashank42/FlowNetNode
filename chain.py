@@ -8,7 +8,7 @@ from flow_py_sdk import cadence
 async def get_requests():
     script = Script(
         code="""
-                import FlowNet from 0xa63112fad5c0e684
+                import FlowNet from 0xd868d023029053e1
                 pub fun main(): {UInt64: FlowNet.Request} {
                     return FlowNet.getRequests()
                 }
@@ -25,7 +25,7 @@ async def get_requests():
 async def get_responses():
     script = Script(
         code="""
-                import FlowNet from 0xa63112fad5c0e684
+                import FlowNet from 0xd868d023029053e1
                 pub fun main(): {UInt64: FlowNet.Response} {
                     return FlowNet.getResponses()
                 }
