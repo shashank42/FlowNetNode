@@ -1,2 +1,3 @@
-# Check out how to use the Node in the Google Colab notebook
-https://colab.research.google.com/drive/10k5QfP0eG8ivHL2XFmBxs3BKcKsqNfTl?usp=sharing
+# Check out how to run the Node in the Google Colab notebook
+
+https://colab.research.google.com/drive/12MK3im0zXDSFFH5SDwB3Bl9hbQcOmany
