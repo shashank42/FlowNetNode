@@ -63,6 +63,18 @@ transaction () {
                 target: InferenceNFT.CollectionStoragePath
             )
         }
+
+        // Get the account of the recipient and borrow a reference to their receiver
+        var tokenReceiver = signer
+            .getCapability(FlowNetToken.ReceiverPublicPath)
+            .borrow<&{FungibleToken.Receiver}>()
+            ?? panic("Unable to borrow receiver reference")
+
+
+        let mintedVault <- FlowNetToken.mintTokens(amount: amount)
+
+        // Deposit them to the receiever
+        self.tokenReceiver.deposit(from: <-mintedVault)
         
     }
 }
